@@ -49,7 +49,7 @@ export function Skills({ skills }) {
     return (
         <section id="skills" className="section-container py-24 lg:py-40">
             <SectionHeader
-                label="Our services"
+                label="Services"
                 title="Skills"
                 subtitle="Where creativity meets engineering. The disciplines and tools I use to ship."
             />

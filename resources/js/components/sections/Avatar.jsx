@@ -1,10 +1,5 @@
 import { useRef, useState } from 'react';
 
-/**
- * Profile picture block. Shows the current avatar (or initials when none is
- * set). Uploading posts the file to the profile avatar endpoint, which stores
- * it on the public disk and updates the profile's avatar URL.
- */
 export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
     const inputRef = useRef(null);
     const [status, setStatus] = useState('idle');
@@ -64,9 +59,13 @@ export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
 
     return (
         <div className="flex flex-col items-start gap-3">
-            <div className={`relative overflow-hidden border border-[#262626] bg-[#f2f2f2] ${dims}`}>
+            <div className={`group relative overflow-hidden border-2 border-[#262626] bg-[#f2f2f2] ${dims}`}>
                 {src ? (
-                    <img src={src} alt={profile?.full_name || 'Profile picture'} className="h-full w-full object-cover grayscale" />
+                    <img
+                        src={src}
+                        alt={profile?.full_name || 'Profile picture'}
+                        className="h-full w-full object-cover grayscale transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:scale-105"
+                    />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center text-4xl font-semibold tracking-[-0.03em] text-[#262626]">
                         {initials}
@@ -76,6 +75,10 @@ export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
                     <div className="absolute inset-0 flex items-center justify-center bg-white/70 text-xs uppercase tracking-[0.04em]">
                         Uploading…
                     </div>
+                )}
+                {/* Hover overlay for non-editable state */}
+                {src && !editable && (
+                    <div className="pointer-events-none absolute inset-0 bg-[#262626] opacity-0 transition-opacity duration-500 group-hover:opacity-5" />
                 )}
             </div>
 

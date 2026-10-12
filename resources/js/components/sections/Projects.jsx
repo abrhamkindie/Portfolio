@@ -1,12 +1,9 @@
 import { useState } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { formatDate } from '@/lib/utils';
 import { useRuleDraw } from '@/lib/motion';
 
-/**
- * Work list in the site's style: numbered rows with rules. Hovering a row
- * shows that project's thumbnail in a floating panel (the site's hover-image).
- */
 export function Projects({ projects }) {
     const categories = ['All', ...new Set(projects.map((p) => p.category).filter(Boolean))];
     const [active, setActive] = useState('All');
@@ -44,9 +41,9 @@ export function Projects({ projects }) {
                             onMouseEnter={() => setHovered(project)}
                             onMouseLeave={() => setHovered(null)}
                             data-cursor="View"
-                            className="group grid gap-6 border-t border-[#262626] py-8 md:grid-cols-[80px_1fr_1fr_auto] md:items-start md:gap-10 lg:py-12 last:border-b"
+                            className="group grid gap-6 border-t border-[#262626] py-8 transition-colors duration-300 hover:bg-[#262626]/[0.02] md:grid-cols-[80px_1fr_1fr_auto] md:items-start md:gap-10 lg:py-12 last:border-b"
                         >
-                            <span className="text-sm text-[#7b7b7b]">{String(index + 1).padStart(2, '0')}</span>
+                            <span className="text-sm text-[#7b7b7b] transition-colors group-hover:text-[#262626]">{String(index + 1).padStart(2, '0')}</span>
 
                             <div>
                                 <h3 className="text-2xl font-semibold tracking-[-0.02em] text-[#262626] transition-transform duration-500 group-hover:translate-x-2 lg:text-[32px]">
@@ -73,6 +70,7 @@ export function Projects({ projects }) {
                                 {project.live_url && (
                                     <a href={project.live_url} target="_blank" rel="noopener noreferrer" data-cursor="hover" className="btn-primary !py-2">
                                         Live demo
+                                        <ArrowUpRight size={14} />
                                     </a>
                                 )}
                                 {project.github_url && (

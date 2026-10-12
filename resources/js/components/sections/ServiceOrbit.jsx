@@ -70,7 +70,7 @@ export function ServiceOrbit({ services = defaultServices }) {
     return (
         <section id="services" className="section-container py-24 lg:py-40">
             <SectionHeader
-                label="What we do"
+                label="What I do"
                 title="Services"
                 subtitle="Web development, design, deployment and management, all in one place."
             />

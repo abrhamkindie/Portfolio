@@ -227,10 +227,10 @@ export function Process() {
                 className="mx-auto flex w-full max-w-[1920px] flex-col items-center gap-[clamp(30px,4vh,60px)] px-[clamp(20px,3vw,80px)] pb-[clamp(30px,4vh,60px)] pt-[clamp(40px,5vh,80px)] text-center"
             >
                 <p data-reveal className="text-[clamp(10px,0.8vw,16px)] uppercase leading-none">
-                    Our process
+                    Process
                 </p>
                 <h2 data-reveal className="max-w-[1100px] text-[clamp(32px,3.8vw,72px)] font-semibold leading-[1.1] tracking-[-0.02em]">
-                    Explore our journey and how we turn ideas into incredible results.
+                    Explore my journey and how I turn ideas into incredible results.
                 </h2>
             </div>
 

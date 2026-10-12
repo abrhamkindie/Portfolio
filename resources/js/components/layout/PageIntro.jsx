@@ -51,7 +51,7 @@ export function PageIntro({ onDone }) {
                 data-mark
                 className="translate-y-3 text-2xl font-semibold tracking-[-0.03em] text-white opacity-0"
             >
-                Escolhadigital
+                Portfolio
             </p>
         </div>
     );
