@@ -11,6 +11,7 @@ import { Projects } from '@/components/sections/Projects';
 import { ImageShowcase } from '@/components/sections/ImageShowcase';
 import { ServiceOrbit } from '@/components/sections/ServiceOrbit';
 import { Skills } from '@/components/sections/Skills';
+import { Process } from '@/components/sections/Process';
 import { Experience } from '@/components/sections/Experience';
 import { Education } from '@/components/sections/Education';
 import { Certificates } from '@/components/sections/Certificates';
@@ -106,6 +107,7 @@ export default function Portfolio({ initialData = {}, auth }) {
                     <ImageShowcase projects={data.projects} />
                     <ServiceOrbit />
                     <Skills skills={data.skills} />
+                    <Process />
                     <Experience experiences={data.experiences} />
                     <Education educations={data.educations} />
                     <Certificates certificates={data.certificates} />
