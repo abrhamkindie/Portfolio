@@ -11,7 +11,7 @@ const highlights = [
 ];
 
 export function Hero({ profile, onProfileChange, editable = false }) {
-    const name = profile?.full_name || 'John Doe';
+    const name = profile?.full_name || 'Abrham Kindie';
     const title = profile?.title || 'Full Stack Developer';
     const bio = profile?.bio || 'I design, build and run websites and web apps, from the first wireframe to ongoing maintenance.';
     const location = profile?.location;
