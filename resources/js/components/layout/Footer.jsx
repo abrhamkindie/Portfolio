@@ -39,7 +39,7 @@ export function Footer({ profile }) {
     ].filter((s) => s.url);
 
     return (
-        <footer className="bg-[#262626] text-white">
+        <footer className="dark-section bg-[#262626] text-white">
             <div ref={revealRef} className="section-container grid gap-12 py-16 md:grid-cols-2 lg:py-24">
                 <div data-reveal>
                     <p className="text-[clamp(28px,3.5vw,56px)] font-semibold leading-[1.1] tracking-[-0.03em]">

@@ -12,13 +12,15 @@ const navItems = [
 const EASE = 'cubic-bezier(0.22,1,0.36,1)';
 
 /**
- * Header modelled on the site: bold logo on the left, spaced nav links and a
- * black pill "Let's talk" button on the right. On small screens a round toggle
- * opens a full-screen dark menu whose links rise in one after another.
+ * Header modelled on the site: bold logo on the left, spaced nav links with an
+ * animated underline (and scroll-spy active state), plus a black pill "Let's
+ * talk" button on the right. On small screens a round toggle opens a
+ * full-screen dark menu whose links rise in one after another.
  */
 export function Navbar({ profile }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [activeSection, setActiveSection] = useState('#projects');
     const name = profile?.full_name || 'Portfolio';
 
     useEffect(() => {
@@ -26,6 +28,33 @@ export function Navbar({ profile }) {
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    // Scroll-spy: highlight the nav item for the section currently in view.
+    useEffect(() => {
+        const sections = navItems
+            .map((item) => document.querySelector(item.href))
+            .filter(Boolean);
+
+        if (sections.length === 0) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const visible = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+                if (visible[0]) {
+                    setActiveSection(`#${visible[0].target.id}`);
+                }
+            },
+            {
+                rootMargin: '-45% 0px -50% 0px',
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+            }
+        );
+
+        sections.forEach((section) => observer.observe(section));
+        return () => observer.disconnect();
     }, []);
 
     // Lock page scroll while the mobile menu is open.
@@ -42,8 +71,10 @@ export function Navbar({ profile }) {
         <>
             <header
                 className={cn(
-                    'fixed inset-x-0 top-0 z-50 bg-white transition-shadow duration-300',
-                    isScrolled && 'shadow-[0_1px_0_rgba(38,38,38,0.08)]'
+                    'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+                    isScrolled
+                        ? 'bg-white/85 shadow-[0_1px_0_rgba(38,38,38,0.08)] backdrop-blur-md'
+                        : 'bg-transparent'
                 )}
             >
                 <div className="mx-auto flex h-[clamp(70px,8vh,97px)] w-[90%] max-w-[min(1800px,95vw)] items-center justify-between">
@@ -57,17 +88,30 @@ export function Navbar({ profile }) {
 
                     <nav aria-label="Main navigation" className="hidden flex-1 items-center justify-end md:flex">
                         <ul className="flex items-center gap-[clamp(30px,4vw,50px)]">
-                            {navItems.map((item) => (
-                                <li key={item.href}>
-                                    <a
-                                        href={item.href}
-                                        data-cursor="hover"
-                                        className="nav-link text-[clamp(16px,1.2vw,18px)] font-medium leading-none tracking-[-0.01em] text-[#000]"
-                                    >
-                                        {item.label}
-                                    </a>
-                                </li>
-                            ))}
+                            {navItems.map((item) => {
+                                const isActive = activeSection === item.href;
+                                return (
+                                    <li key={item.href}>
+                                        <a
+                                            href={item.href}
+                                            data-cursor="hover"
+                                            className={cn(
+                                                'group relative inline-block text-[clamp(16px,1.2vw,18px)] font-medium leading-none tracking-[-0.01em] transition-colors duration-300',
+                                                isActive ? 'text-[#000]' : 'text-[#5b5b5b] hover:text-[#000]'
+                                            )}
+                                        >
+                                            {item.label}
+                                            <span
+                                                className={cn(
+                                                    'absolute -bottom-1.5 left-0 h-px bg-[#262626] transition-all duration-300',
+                                                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                                                )}
+                                                style={{ transitionTimingFunction: EASE }}
+                                            />
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
 
                         <a

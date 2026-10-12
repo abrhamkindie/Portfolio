@@ -143,7 +143,7 @@ export function Contact({ profile }) {
     return (
         <section
             id="contact"
-            className="bg-[#262626] py-24 text-white lg:py-40"
+            className="dark-section bg-[#262626] py-24 text-white lg:py-40"
         >
             <div
                 ref={revealRef}

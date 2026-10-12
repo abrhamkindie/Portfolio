@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -55,7 +55,10 @@
         height: 0;
     }
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
         @apply font-semibold;
     }
 }
@@ -102,7 +105,10 @@
     }
     .btn-primary:hover {
         @apply bg-white text-[#262626];
-        box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 50px #fff;
+        box-shadow:
+            0 0 5px #fff,
+            0 0 25px #fff,
+            0 0 50px #fff;
     }
     .btn-primary:hover::before {
         display: none;
@@ -134,7 +140,10 @@
     .btn-glass:hover,
     .btn-ghost:hover {
         @apply bg-[#262626] text-white;
-        box-shadow: 0 0 5px #262626, 0 0 25px #262626, 0 0 50px #262626;
+        box-shadow:
+            0 0 5px #262626,
+            0 0 25px #262626,
+            0 0 50px #262626;
     }
     .btn-outline:hover::before,
     .btn-secondary:hover::before,
@@ -153,6 +162,14 @@
         @apply btn bg-white text-[#262626] hover:bg-[#262626] hover:text-white;
     }
 
+    .btn-outline-dark {
+        @apply btn border border-white/30 bg-transparent text-white hover:bg-white hover:text-[#262626];
+    }
+    .btn-outline-dark::before,
+    .btn-outline-dark::after {
+        display: none;
+    }
+
     /* Nav links: colour fade and a slight lift on hover, like the site header. */
     .nav-link {
         @apply inline-block transition-all duration-300 ease-in-out;
@@ -164,8 +181,12 @@
     }
 
     @keyframes btn-spin {
-        0% { transform: translate(-50%, -50%) rotate(0deg); }
-        100% { transform: translate(-50%, -50%) rotate(360deg); }
+        0% {
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+        100% {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
     }
 
     .link {
@@ -224,8 +245,12 @@
 }
 
 @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 .animate-marquee {
@@ -248,7 +273,7 @@
     html.has-custom-cursor,
     html.has-custom-cursor a,
     html.has-custom-cursor button,
-    html.has-custom-cursor [role='button'],
+    html.has-custom-cursor [role="button"],
     html.has-custom-cursor input,
     html.has-custom-cursor textarea,
     html.has-custom-cursor select {
@@ -258,10 +283,17 @@
 
 /* Rule draw-in: rows reveal a top border that grows across the width. */
 li[style*="--rule"] {
-    background-image: linear-gradient(#262626, #262626);
+    background-image: linear-gradient(
+        var(--rule-color, #262626),
+        var(--rule-color, #262626)
+    );
     background-repeat: no-repeat;
     background-size: calc(var(--rule, 0%)) 1px;
     background-position: 0 0;
+}
+
+.dark-section {
+    --rule-color: rgba(255, 255, 255, 0.6);
 }
 
 /* Marquee gap */
@@ -274,7 +306,15 @@ li[style*="--rule"] {
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, transparent 0%, transparent 46%, #fff 50%, transparent 54%, transparent 100%) 0 0 / 200% 100%;
+    background: linear-gradient(
+            120deg,
+            transparent 0%,
+            transparent 46%,
+            #fff 50%,
+            transparent 54%,
+            transparent 100%
+        )
+        0 0 / 200% 100%;
     color: transparent;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -285,6 +325,10 @@ li[style*="--rule"] {
 }
 
 @keyframes silver-shine {
-    0% { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
 }

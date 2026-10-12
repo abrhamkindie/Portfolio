@@ -143,7 +143,7 @@ export function ImageShowcase({ projects }) {
             id="showcase"
             ref={sectionRef}
             data-cursor="dot-invert"
-            className="relative w-full overflow-hidden bg-[#262626] text-white"
+            className="dark-section relative w-full overflow-hidden bg-[#262626] text-white"
         >
             {/* Desktop: pinned list + image */}
             <div className="hidden h-screen lg:block">
