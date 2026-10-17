@@ -20,6 +20,7 @@ class UpdateProjectRequest extends FormRequest
             'description' => 'sometimes|required|string',
             'content' => 'nullable|string',
             'thumbnail' => 'nullable|url|max:255',
+            'thumbnail_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'images' => 'nullable|array',
             'images.*' => 'url|max:255',
             'technologies' => 'nullable|array',

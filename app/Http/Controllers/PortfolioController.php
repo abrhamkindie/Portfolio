@@ -15,25 +15,27 @@ class PortfolioController extends Controller
     public function index()
     {
         $profile = Profile::with('user')->first();
-        
+
         $projects = Project::where('published', true)
-            ->latest()
+            ->orderBy('sort_order')
+            ->orderByDesc('featured')
+            ->orderByDesc('created_at')
             ->take(20)
             ->get();
-        
+
         $skills = Skill::orderBy('category')
             ->orderBy('sort_order')
             ->take(50)
             ->get();
-        
+
         $experiences = Experience::orderByDesc('start_date')
             ->take(20)
             ->get();
-        
+
         $educations = Education::orderByDesc('start_date')
             ->take(20)
             ->get();
-        
+
         $certificates = Certificate::orderByDesc('issued_at')
             ->take(20)
             ->get();
@@ -41,11 +43,11 @@ class PortfolioController extends Controller
         return Inertia::render('Portfolio', [
             'initialData' => [
                 'profile' => $profile ? $this->transformProfile($profile) : null,
-                'projects' => $projects->map(fn ($p) => $this->transformProject($p))->values(),
-                'skills' => $skills->map(fn ($s) => $this->transformSkill($s))->values(),
-                'experiences' => $experiences->map(fn ($e) => $this->transformExperience($e))->values(),
-                'educations' => $educations->map(fn ($e) => $this->transformEducation($e))->values(),
-                'certificates' => $certificates->map(fn ($c) => $this->transformCertificate($c))->values(),
+                'projects' => $projects->map(fn($p) => $this->transformProject($p))->values(),
+                'skills' => $skills->map(fn($s) => $this->transformSkill($s))->values(),
+                'experiences' => $experiences->map(fn($e) => $this->transformExperience($e))->values(),
+                'educations' => $educations->map(fn($e) => $this->transformEducation($e))->values(),
+                'certificates' => $certificates->map(fn($c) => $this->transformCertificate($c))->values(),
             ],
         ]);
     }
