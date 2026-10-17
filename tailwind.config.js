@@ -16,7 +16,8 @@ export default {
             fontFamily: {
                 sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
                 mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
-                display: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                serif: ['"Instrument Serif"', 'Georgia', ...defaultTheme.fontFamily.serif],
+                display: ['"Instrument Serif"', 'Georgia', ...defaultTheme.fontFamily.serif],
             },
             colors: {
                 border: 'hsl(var(--border))',

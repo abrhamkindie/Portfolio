@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -28,6 +29,31 @@
         --input: 0 0% 85%;
         --ring: 0 0% 15%;
         --radius: 19px;
+    }
+
+    /* Dark theme scoped to the admin panel only (public site stays light).
+       "Aerium" quiet-luxury palette: charcoal canvas, cool blue-grey mist, off-white ink. */
+    .dark {
+        --background: 200 18% 4%;
+        --foreground: 200 16% 96%;
+        --card: 200 15% 8%;
+        --card-foreground: 200 16% 96%;
+        --popover: 200 15% 9%;
+        --popover-foreground: 200 16% 96%;
+        --primary: 200 14% 96%;
+        --primary-foreground: 200 20% 6%;
+        --secondary: 200 12% 14%;
+        --secondary-foreground: 200 16% 96%;
+        --muted: 200 12% 14%;
+        --muted-foreground: 197 16% 72%;
+        --accent: 200 12% 16%;
+        --accent-foreground: 200 16% 96%;
+        --destructive: 0 72% 55%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 200 14% 16%;
+        --input: 200 14% 18%;
+        --ring: 197 30% 70%;
+        --radius: 20px;
     }
 }
 
@@ -64,6 +90,7 @@
 }
 
 @layer components {
+
     /* Pill buttons */
     /* Buttons, matching the site: pill shape, rotating gradient border,
        and a glow on hover that flips the fill. */
@@ -97,12 +124,15 @@
     .btn-primary {
         @apply btn bg-[#262626] text-white;
     }
+
     .btn-primary::before {
         background: linear-gradient(#fff, #d7d7d7, #262626);
     }
+
     .btn-primary::after {
         background: #262626;
     }
+
     .btn-primary:hover {
         @apply bg-white text-[#262626];
         box-shadow:
@@ -110,9 +140,11 @@
             0 0 25px #fff,
             0 0 50px #fff;
     }
+
     .btn-primary:hover::before {
         display: none;
     }
+
     .btn-primary:hover::after {
         background: #fff;
     }
@@ -123,18 +155,21 @@
     .btn-ghost {
         @apply btn bg-white text-[#262626];
     }
+
     .btn-outline::before,
     .btn-secondary::before,
     .btn-glass::before,
     .btn-ghost::before {
         background: linear-gradient(#262626, #d7d7d7, #fff);
     }
+
     .btn-outline::after,
     .btn-secondary::after,
     .btn-glass::after,
     .btn-ghost::after {
         background: #fff;
     }
+
     .btn-outline:hover,
     .btn-secondary:hover,
     .btn-glass:hover,
@@ -145,12 +180,14 @@
             0 0 25px #262626,
             0 0 50px #262626;
     }
+
     .btn-outline:hover::before,
     .btn-secondary:hover::before,
     .btn-glass:hover::before,
     .btn-ghost:hover::before {
         display: none;
     }
+
     .btn-outline:hover::after,
     .btn-secondary:hover::after,
     .btn-glass:hover::after,
@@ -165,6 +202,7 @@
     .btn-outline-dark {
         @apply btn border border-white/30 bg-transparent text-white hover:bg-white hover:text-[#262626];
     }
+
     .btn-outline-dark::before,
     .btn-outline-dark::after {
         display: none;
@@ -174,6 +212,7 @@
     .nav-link {
         @apply inline-block transition-all duration-300 ease-in-out;
     }
+
     .nav-link:hover {
         @apply text-[#606060];
         transform: scale(1.05);
@@ -184,6 +223,7 @@
         0% {
             transform: translate(-50%, -50%) rotate(0deg);
         }
+
         100% {
             transform: translate(-50%, -50%) rotate(360deg);
         }
@@ -198,7 +238,8 @@
     }
 
     .section-title {
-        @apply text-[clamp(32px,4.5vw,64px)] font-semibold leading-[1.1] tracking-[-0.03em];
+        font-size: clamp(32px, 4.5vw, 64px);
+        @apply font-semibold leading-[1.1] tracking-[-0.03em];
     }
 
     .section-container {
@@ -229,6 +270,135 @@
     }
 }
 
+/* Dark admin theme: adapt shared component classes without touching the light public site. */
+@layer components {
+
+    .dark .btn::before,
+    .dark .btn::after {
+        display: none;
+    }
+
+    .dark .btn-primary {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+    }
+
+    .dark .btn-primary:hover {
+        background: hsl(var(--primary) / 0.92);
+        color: hsl(var(--primary-foreground));
+        box-shadow: 0 10px 34px -10px hsl(var(--primary) / 0.65);
+    }
+
+    .dark .btn-outline,
+    .dark .btn-secondary,
+    .dark .btn-glass,
+    .dark .btn-ghost {
+        background: transparent;
+        color: hsl(var(--foreground));
+        border: 1px solid hsl(var(--border));
+    }
+
+    .dark .btn-outline:hover,
+    .dark .btn-secondary:hover,
+    .dark .btn-glass:hover,
+    .dark .btn-ghost:hover {
+        background: hsl(var(--foreground));
+        color: hsl(var(--background));
+        box-shadow: none;
+    }
+
+    .dark .badge-primary {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border-color: hsl(var(--primary));
+    }
+
+    .dark .badge-outline,
+    .dark .badge-secondary {
+        border-color: hsl(var(--border));
+        color: hsl(var(--muted-foreground));
+    }
+
+    /* Boxed form controls for the admin (replaces the light underline style). */
+    .dark .input {
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        padding-inline: 1rem;
+        color: hsl(var(--foreground));
+        font-size: 0.875rem;
+        line-height: 1.4;
+        backdrop-filter: blur(8px);
+    }
+
+    .dark textarea.input {
+        border-radius: 18px;
+        padding-block: 0.75rem;
+    }
+
+    .dark .input::placeholder {
+        color: hsl(var(--muted-foreground));
+    }
+
+    .dark .input:focus-visible {
+        outline: none;
+        border-color: rgba(255, 255, 255, 0.30);
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+    }
+
+    .dark .input:disabled {
+        opacity: 0.5;
+    }
+
+    .dark select.input {
+        cursor: pointer;
+    }
+
+    .dark select.input option {
+        background: #111;
+        color: #fff;
+    }
+
+    .dark input[type="date"].input::-webkit-calendar-picker-indicator,
+    .dark input[type="number"].input::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        opacity: 0.5;
+        cursor: pointer;
+    }
+
+    .dark input[type="range"].input {
+        padding-inline: 0;
+        border: 0;
+        background: transparent;
+    }
+
+    .dark .card {
+        border-top-color: hsl(var(--border));
+        background: hsl(var(--card));
+    }
+
+    /* Aerium canvas: charcoal with a soft cool blue-grey mist toward the lower-left. */
+    .dark .admin-canvas {
+        background:
+            radial-gradient(90% 60% at 10% 100%, rgba(120, 150, 165, 0.16), transparent 60%),
+            radial-gradient(80% 60% at 100% 0%, rgba(255, 255, 255, 0.05), transparent 55%),
+            hsl(var(--background));
+    }
+
+    /* Glassmorphism panels: translucent, faint light border, large radius, soft depth. */
+    .dark .panel {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        box-shadow:
+            0 24px 48px -28px rgba(0, 0, 0, 0.7),
+            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+}
+
 @layer utilities {
     .text-balance {
         text-wrap: balance;
@@ -248,6 +418,7 @@
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-50%);
     }
@@ -258,6 +429,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -270,6 +442,7 @@
 
 /* Custom cursor (desktop only). Native cursor hidden on fine pointers. */
 @media (hover: hover) and (pointer: fine) {
+
     html.has-custom-cursor,
     html.has-custom-cursor a,
     html.has-custom-cursor button,
@@ -283,10 +456,8 @@
 
 /* Rule draw-in: rows reveal a top border that grows across the width. */
 li[style*="--rule"] {
-    background-image: linear-gradient(
-        var(--rule-color, #262626),
-        var(--rule-color, #262626)
-    );
+    background-image: linear-gradient(var(--rule-color, #262626),
+            var(--rule-color, #262626));
     background-repeat: no-repeat;
     background-size: calc(var(--rule, 0%)) 1px;
     background-position: 0 0;
@@ -306,15 +477,12 @@ li[style*="--rule"] {
     content: attr(data-text);
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-            120deg,
+    background: linear-gradient(120deg,
             transparent 0%,
             transparent 46%,
             #fff 50%,
             transparent 54%,
-            transparent 100%
-        )
-        0 0 / 200% 100%;
+            transparent 100%) 0 0 / 200% 100%;
     color: transparent;
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
@@ -328,6 +496,7 @@ li[style*="--rule"] {
     0% {
         background-position: 100% 0;
     }
+
     100% {
         background-position: -100% 0;
     }
