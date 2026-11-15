@@ -22,13 +22,18 @@ export default function ConfirmPassword() {
         <GuestLayout>
             <Head title="Confirm Password" />
 
-            <div className="mb-4 text-sm text-gray-600">
-                This is a secure area of the application. Please confirm your
-                password before continuing.
+            <div className="mb-8">
+                <h1 className="font-display text-2xl font-bold uppercase tracking-tight text-foreground">
+                    Confirm password
+                </h1>
+                <p className="mt-2 text-sm text-muted-foreground">
+                    This is a secure area of the application. Please confirm
+                    your password before continuing.
+                </p>
             </div>
 
-            <form onSubmit={submit}>
-                <div className="mt-4">
+            <form onSubmit={submit} className="space-y-5">
+                <div>
                     <InputLabel htmlFor="password" value="Password" />
 
                     <TextInput
@@ -36,7 +41,7 @@ export default function ConfirmPassword() {
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="block w-full"
                         isFocused={true}
                         onChange={(e) => setData('password', e.target.value)}
                     />
@@ -44,11 +49,9 @@ export default function ConfirmPassword() {
                     <InputError message={errors.password} className="mt-2" />
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Confirm
-                    </PrimaryButton>
-                </div>
+                <PrimaryButton disabled={processing} className="w-full">
+                    Confirm
+                </PrimaryButton>
             </form>
         </GuestLayout>
     );

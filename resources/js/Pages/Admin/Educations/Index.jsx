@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import DataTable from '@/Components/Admin/DataTable';
 import DeleteButton from '@/Components/Admin/DeleteButton';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import IconTile from '@/Components/Admin/IconTile';
 import PageHeader from '@/Components/Admin/PageHeader';
 import StatusPill from '@/Components/Admin/StatusPill';
 import { btnPrimary, iconBtn } from '@/Components/Admin/styles';
@@ -18,9 +19,7 @@ export default function EducationsIndex({ educations }) {
             label: 'Degree',
             render: (e) => (
                 <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border bg-white/[0.03] text-muted-foreground">
-                        <GraduationCap className="h-4 w-4" />
-                    </span>
+                    <IconTile icon={GraduationCap} />
                     <div className="min-w-0">
                         <div className="truncate font-medium text-foreground">{e.degree}</div>
                         {e.field_of_study && <div className="truncate text-xs text-muted-foreground">{e.field_of_study}</div>}

@@ -17,7 +17,7 @@ export function SectionHeader({ label, title, subtitle, index, className }) {
                 </div>
             )}
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-                <h2 data-reveal className="section-title mb-0 max-w-4xl text-gradient !text-[6vw] lg:!text-[4rem]">
+                <h2 data-reveal className="section-title max-w-4xl text-gradient">
                     {title}
                 </h2>
                 {subtitle && (

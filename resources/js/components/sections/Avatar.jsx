@@ -59,7 +59,7 @@ export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
 
     return (
         <div className="flex h-full w-full flex-col gap-3">
-            <div className={`group relative flex-1 overflow-hidden rounded-[24px] bg-[#eceae5] ${dims}`}>
+            <div className={`group relative flex-1 overflow-hidden rounded-[24px] border border-white/10 bg-white/[0.03] ${dims}`}>
                 {src ? (
                     <img
                         src={src}
@@ -67,12 +67,12 @@ export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
                         className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                     />
                 ) : (
-                    <div className="flex h-full w-full items-center justify-center text-5xl font-semibold tracking-[-0.04em] text-[#161616]">
+                    <div className="flex h-full w-full items-center justify-center text-5xl font-semibold tracking-[-0.04em] text-white/40">
                         {initials}
                     </div>
                 )}
                 {status === 'uploading' && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-white/70 text-[11px] uppercase tracking-[0.18em]">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-[11px] uppercase tracking-[0.18em] text-white">
                         Uploading…
                     </div>
                 )}
@@ -91,7 +91,7 @@ export function Avatar({ profile, onChange, size = 'lg', editable = false }) {
                     <label htmlFor="avatar-input" className="btn-outline btn-sm cursor-pointer self-start">
                         {src ? 'Change photo' : 'Upload photo'}
                     </label>
-                    {error && <p className="text-xs text-[#161616]" role="alert">{error}</p>}
+                    {error && <p className="text-xs text-destructive" role="alert">{error}</p>}
                 </div>
             )}
         </div>

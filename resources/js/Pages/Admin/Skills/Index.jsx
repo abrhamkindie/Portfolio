@@ -2,6 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import DataTable from '@/Components/Admin/DataTable';
 import DeleteButton from '@/Components/Admin/DeleteButton';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import IconTile from '@/Components/Admin/IconTile';
 import PageHeader from '@/Components/Admin/PageHeader';
 import StatusPill from '@/Components/Admin/StatusPill';
 import { btnPrimary, iconBtn } from '@/Components/Admin/styles';
@@ -15,9 +16,7 @@ export default function SkillsIndex({ skills }) {
             label: 'Skill',
             render: (s) => (
                 <div className="flex items-center gap-3">
-                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-border bg-white/[0.03] text-muted-foreground">
-                        <Wrench className="h-4 w-4" />
-                    </span>
+                    <IconTile icon={Wrench} />
                     <span className="font-medium text-foreground">{s.name}</span>
                 </div>
             ),

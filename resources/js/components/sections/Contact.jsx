@@ -27,6 +27,12 @@ function TwitterIcon({ size = 16 }) {
     );
 }
 
+const fieldClass =
+    'w-full rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-4 text-sm font-medium text-white outline-none transition-colors placeholder:text-white/20 focus:border-primary/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-primary/20 disabled:opacity-50';
+
+const fieldErrorClass =
+    'border-destructive/50 focus:border-destructive/50 focus:ring-destructive/20';
+
 export function Contact({ profile }) {
     const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
     const [status, setStatus] = useState('idle');
@@ -98,7 +104,7 @@ export function Contact({ profile }) {
                 <div ref={revealRef} className="grid gap-24 lg:grid-cols-[0.8fr_1.2fr] items-start">
                     <div>
                         <span className="section-label" data-reveal>Get In Touch</span>
-                        <h2 className="section-title text-white mb-10 tracking-tighter" data-reveal>
+                        <h2 className="section-title mb-10 text-white" data-reveal>
                             Let's make something<br /><span className="text-primary italic">extraordinary.</span>
                         </h2>
                         
@@ -155,10 +161,8 @@ export function Contact({ profile }) {
                                         onChange={handleChange}
                                         placeholder="John Doe"
                                         disabled={busy}
-                                        className={cn(
-                                            "w-full rounded-2xl border-white/5 bg-white/[0.03] px-8 py-5 text-white placeholder:text-white/10 transition-all focus:border-primary/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-primary/20 outline-none font-medium",
-                                            errors.name && "border-destructive/50 focus:border-destructive/50 focus:ring-destructive/20"
-                                        )}
+                                        aria-invalid={Boolean(errors.name)}
+                                        className={cn(fieldClass, errors.name && fieldErrorClass)}
                                     />
                                     {errors.name && <p className="text-[10px] font-bold text-destructive uppercase tracking-widest mt-2 ml-1">{errors.name}</p>}
                                 </div>
@@ -172,10 +176,8 @@ export function Contact({ profile }) {
                                         onChange={handleChange}
                                         placeholder="john@example.com"
                                         disabled={busy}
-                                        className={cn(
-                                            "w-full rounded-2xl border-white/5 bg-white/[0.03] px-8 py-5 text-white placeholder:text-white/10 transition-all focus:border-primary/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-primary/20 outline-none font-medium",
-                                            errors.email && "border-destructive/50 focus:border-destructive/50 focus:ring-destructive/20"
-                                        )}
+                                        aria-invalid={Boolean(errors.email)}
+                                        className={cn(fieldClass, errors.email && fieldErrorClass)}
                                     />
                                     {errors.email && <p className="text-[10px] font-bold text-destructive uppercase tracking-widest mt-2 ml-1">{errors.email}</p>}
                                 </div>
@@ -191,10 +193,8 @@ export function Contact({ profile }) {
                                     onChange={handleChange}
                                     placeholder="Project Inquiry"
                                     disabled={busy}
-                                    className={cn(
-                                        "w-full rounded-2xl border-white/5 bg-white/[0.03] px-8 py-5 text-white placeholder:text-white/10 transition-all focus:border-primary/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-primary/20 outline-none font-medium",
-                                        errors.subject && "border-destructive/50 focus:border-destructive/50 focus:ring-destructive/20"
-                                    )}
+                                    aria-invalid={Boolean(errors.subject)}
+                                    className={cn(fieldClass, errors.subject && fieldErrorClass)}
                                 />
                                 {errors.subject && <p className="text-[10px] font-bold text-destructive uppercase tracking-widest mt-2 ml-1">{errors.subject}</p>}
                             </div>
@@ -209,10 +209,8 @@ export function Contact({ profile }) {
                                     onChange={handleChange}
                                     placeholder="Tell me about your project..."
                                     disabled={busy}
-                                    className={cn(
-                                        "w-full rounded-2xl border-white/5 bg-white/[0.03] px-8 py-5 text-white placeholder:text-white/10 transition-all focus:border-primary/50 focus:bg-white/[0.05] focus:ring-1 focus:ring-primary/20 outline-none resize-none font-medium",
-                                        errors.message && "border-destructive/50 focus:border-destructive/50 focus:ring-destructive/20"
-                                    )}
+                                    aria-invalid={Boolean(errors.message)}
+                                    className={cn(fieldClass, 'resize-none', errors.message && fieldErrorClass)}
                                 />
                                 {errors.message && <p className="text-[10px] font-bold text-destructive uppercase tracking-widest mt-2 ml-1">{errors.message}</p>}
                             </div>
@@ -220,14 +218,14 @@ export function Contact({ profile }) {
                             <button
                                 type="submit"
                                 disabled={busy}
-                                className="w-full btn-primary btn-lg shadow-2xl shadow-primary/30 group/btn h-16 rounded-2xl"
+                                className="btn-primary group/btn w-full"
                             >
                                 {busy ? 'Sending...' : 'Send Message'}
                                 <ArrowUpRight size={22} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 ml-2" />
                             </button>
 
                             {status === 'success' && (
-                                <p className="text-center text-xs font-black text-green-400 uppercase tracking-[0.3em] animate-pulse">
+                                <p className="text-center text-xs font-black uppercase tracking-[0.3em] text-primary">
                                     Message sent successfully!
                                 </p>
                             )}

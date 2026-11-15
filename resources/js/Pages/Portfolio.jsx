@@ -88,7 +88,12 @@ export default function Portfolio({ initialData = {}, auth }) {
 
     return (
         <>
-            <Head title={data.profile?.full_name ? `${data.profile.full_name} — ${data.profile.title || 'Portfolio'}` : 'Abrham — Portfolio'} />
+            <Head
+                title={
+                    [data.profile?.full_name, data.profile?.title].filter(Boolean).join(' — ') ||
+                    'Abrham — Portfolio'
+                }
+            />
             <div className="min-h-screen bg-night font-sans text-white antialiased">
                 <a
                     href="#main-content"

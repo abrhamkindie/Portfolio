@@ -45,11 +45,11 @@ export function PageIntro({ onDone }) {
         <div
             ref={overlayRef}
             aria-hidden="true"
-            className="fixed inset-0 z-[90] flex items-center justify-center bg-[#262626]"
+            className="fixed inset-0 z-[90] flex items-center justify-center bg-background"
         >
             <p
                 data-mark
-                className="translate-y-3 text-2xl font-semibold tracking-[-0.03em] text-white opacity-0"
+                className="translate-y-3 font-display text-2xl font-bold uppercase tracking-tight text-white opacity-0"
             >
                 Portfolio
             </p>
