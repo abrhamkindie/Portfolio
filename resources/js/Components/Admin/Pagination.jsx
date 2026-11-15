@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { meta } from './styles';
 
 export default function Pagination({ paginator }) {
     if (!paginator || !paginator.links || paginator.links.length <= 3) {
@@ -13,7 +14,7 @@ export default function Pagination({ paginator }) {
 
     return (
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
-            <p className="section-label">
+            <p className={meta}>
                 Showing {paginator.from}–{paginator.to} of {paginator.total}
             </p>
             <div className="flex flex-wrap items-center gap-1.5">
@@ -23,7 +24,8 @@ export default function Pagination({ paginator }) {
                             key={index}
                             href={link.url}
                             preserveScroll
-                            className={`inline-flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-medium transition ${link.active
+                            aria-current={link.active ? 'page' : undefined}
+                            className={`inline-flex h-9 min-w-9 items-center justify-center rounded-full px-3 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 ${link.active
                                 ? 'bg-foreground text-background'
                                 : 'text-muted-foreground hover:bg-white/5 hover:text-foreground'
                                 }`}

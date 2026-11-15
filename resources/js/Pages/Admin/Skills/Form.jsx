@@ -1,10 +1,12 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import FormActions from '@/Components/Admin/FormActions';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { dangerText, fieldLabel, successText } from '@/Components/Admin/styles';
+import { cn } from '@/lib/utils';
+import { Head, useForm } from '@inertiajs/react';
 import { SlidersHorizontal, Wrench } from 'lucide-react';
 
 export default function SkillForm({ skill }) {
@@ -55,8 +57,8 @@ export default function SkillForm({ skill }) {
                     <div className="space-y-6">
                         <div>
                             <div className="mb-2 flex items-center justify-between">
-                                <span className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">Level</span>
-                                <span className="text-sm font-semibold tabular-nums text-[#22c55e]">{form.data.proficiency}%</span>
+                                <span className={fieldLabel}>Level</span>
+                                <span className={cn('text-sm font-semibold tabular-nums', successText)}>{form.data.proficiency}%</span>
                             </div>
                             <input
                                 id="proficiency"
@@ -67,7 +69,7 @@ export default function SkillForm({ skill }) {
                                 onChange={(e) => form.setData('proficiency', e.target.value)}
                                 className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/10 accent-[#22c55e]"
                             />
-                            {form.errors.proficiency && <p className="mt-1.5 text-xs text-[#ef4444]">{form.errors.proficiency}</p>}
+                            {form.errors.proficiency && <p className={cn('mt-1.5 text-xs', dangerText)}>{form.errors.proficiency}</p>}
                         </div>
                         <div className="grid gap-5 sm:grid-cols-2">
                             <Field label="Years of experience" name="years_of_experience" type="number" value={form.data.years_of_experience} error={form.errors.years_of_experience} onChange={(e) => form.setData('years_of_experience', e.target.value)} />
@@ -76,14 +78,11 @@ export default function SkillForm({ skill }) {
                     </div>
                 </FormSection>
 
-                <div className="flex items-center gap-3 pt-1">
-                    <button type="submit" className={btnPrimary} disabled={form.processing}>
-                        {isEdit ? 'Update skill' : 'Create skill'}
-                    </button>
-                    <Link href={route('admin.skills.index')} className={btn}>
-                        Cancel
-                    </Link>
-                </div>
+                <FormActions
+                    submitLabel={isEdit ? 'Update skill' : 'Create skill'}
+                    cancelHref={route('admin.skills.index')}
+                    processing={form.processing}
+                />
             </form>
         </AdminLayout>
     );

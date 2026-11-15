@@ -3,7 +3,8 @@ import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
+import { btn, btnPrimary, dangerText, fileInput, successText } from '@/Components/Admin/styles';
+import { cn } from '@/lib/utils';
 import { Head, useForm } from '@inertiajs/react';
 import { Camera, Link2, UserRound } from 'lucide-react';
 import { useRef } from 'react';
@@ -75,10 +76,10 @@ export default function Profile({ profile }) {
                                     type="file"
                                     accept="image/*"
                                     onChange={(e) => avatarForm.setData('avatar', e.target.files[0])}
-                                    className="block w-full cursor-pointer text-xs text-muted-foreground file:mr-3 file:cursor-pointer file:rounded-[8px] file:border-0 file:bg-white/10 file:px-3.5 file:py-2 file:text-xs file:font-medium file:text-foreground hover:file:bg-white/15"
+                                    className={fileInput}
                                 />
                                 {avatarForm.errors.avatar && (
-                                    <p className="text-xs text-[#ef4444]">{avatarForm.errors.avatar}</p>
+                                    <p className={cn('text-xs', dangerText)}>{avatarForm.errors.avatar}</p>
                                 )}
                                 <button
                                     type="submit"
@@ -123,7 +124,7 @@ export default function Profile({ profile }) {
                             Save changes
                         </button>
                         {form.recentlySuccessful && (
-                            <span className="text-sm text-[#22c55e]">Saved.</span>
+                            <span className={cn('text-sm', successText)}>Saved.</span>
                         )}
                     </div>
                 </form>

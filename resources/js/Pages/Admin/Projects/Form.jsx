@@ -2,10 +2,12 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import Checkbox from '@/Components/Admin/Checkbox';
 import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import FormActions from '@/Components/Admin/FormActions';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { dangerText, fieldLabel, fileInput } from '@/Components/Admin/styles';
+import { cn } from '@/lib/utils';
+import { Head, useForm } from '@inertiajs/react';
 import { FolderKanban, Image as ImageIcon, Link2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -103,7 +105,7 @@ export default function ProjectForm({ project }) {
                 <FormSection title="Media & stack" description="Preview image, gallery and technologies." icon={ImageIcon}>
                     <div className="space-y-5">
                         <div>
-                            <label className="mb-2 block text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
+                            <label className={cn('mb-2 block', fieldLabel)}>
                                 Thumbnail image
                             </label>
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -121,10 +123,10 @@ export default function ProjectForm({ project }) {
                                         type="file"
                                         accept="image/*"
                                         onChange={handleThumbnailFile}
-                                        className="block w-full cursor-pointer text-xs text-muted-foreground file:mr-3 file:cursor-pointer file:rounded-[8px] file:border-0 file:bg-white/10 file:px-3.5 file:py-2 file:text-xs file:font-medium file:text-foreground hover:file:bg-white/15"
+                                        className={fileInput}
                                     />
                                     <p className="text-[11px] text-muted-foreground">JPG, PNG or WEBP up to 4&nbsp;MB. An uploaded image replaces the URL below.</p>
-                                    {form.errors.thumbnail_file && <p className="text-xs text-[#ef4444]">{form.errors.thumbnail_file}</p>}
+                                    {form.errors.thumbnail_file && <p className={cn('text-xs', dangerText)}>{form.errors.thumbnail_file}</p>}
                                 </div>
                             </div>
                         </div>
@@ -156,14 +158,11 @@ export default function ProjectForm({ project }) {
                     </div>
                 </FormSection>
 
-                <div className="flex items-center gap-3 pt-1">
-                    <button type="submit" className={btnPrimary} disabled={form.processing}>
-                        {isEdit ? 'Update project' : 'Create project'}
-                    </button>
-                    <Link href={route('admin.projects.index')} className={btn}>
-                        Cancel
-                    </Link>
-                </div>
+                <FormActions
+                    submitLabel={isEdit ? 'Update project' : 'Create project'}
+                    cancelHref={route('admin.projects.index')}
+                    processing={form.processing}
+                />
             </form>
         </AdminLayout>
     );

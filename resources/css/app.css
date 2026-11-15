@@ -308,24 +308,58 @@
         background: hsl(var(--card));
     }
 
-    /* Aerium canvas: charcoal with a soft cool blue-grey mist toward the lower-left. */
+    /*
+     * Aerium console surface: a warm graphite canvas (not pure black) with two
+     * faint light sources — peach from the top-right, cool blue from the
+     * bottom-left — so panels read as glass sitting on a real surface.
+     */
     .dark .admin-canvas {
         background:
-            radial-gradient(90% 60% at 10% 100%, rgba(120, 150, 165, 0.16), transparent 60%),
-            radial-gradient(80% 60% at 100% 0%, rgba(255, 255, 255, 0.05), transparent 55%),
-            hsl(var(--background));
+            radial-gradient(75% 55% at 88% -10%, rgba(231, 183, 166, 0.10), transparent 62%),
+            radial-gradient(70% 55% at 0% 105%, rgba(108, 145, 165, 0.14), transparent 62%),
+            #0a0c0e;
     }
 
-    /* Glassmorphism panels: translucent, faint light border, large radius, soft depth. */
+    /* Sidebar: slightly darker than the canvas, with a hairline edge. */
+    .dark .admin-sidebar {
+        border-right: 1px solid rgba(255, 255, 255, 0.07);
+        background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 45%),
+            #07090b;
+    }
+
+    /* Header: floats over scrolled content with a blurred, tinted plate. */
+    .dark .admin-topbar {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        background: rgba(10, 12, 14, 0.72);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* Glass panels: translucent, hairline border, soft depth. */
     .dark .panel {
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        border-radius: 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         box-shadow:
-            0 24px 48px -28px rgba(0, 0, 0, 0.7),
-            inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            0 24px 48px -30px rgba(0, 0, 0, 0.85),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    /* Console tables: quiet header, lifted hover row. */
+    .dark .admin-table thead th {
+        background: rgba(255, 255, 255, 0.028);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .dark .admin-table tbody tr {
+        transition: background-color 160ms ease;
+    }
+
+    .dark .admin-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.032);
     }
 }
 

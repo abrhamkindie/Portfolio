@@ -1,5 +1,6 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import DeleteButton from '@/Components/Admin/DeleteButton';
+import EmptyState from '@/Components/Admin/EmptyState';
 import FlashMessage from '@/Components/Admin/FlashMessage';
 import PageHeader from '@/Components/Admin/PageHeader';
 import Pagination from '@/Components/Admin/Pagination';
@@ -18,7 +19,7 @@ const sortOptions = [
 ];
 
 const moveBtn =
-    'inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white/[0.03] text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground disabled:pointer-events-none disabled:opacity-40';
+    'inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white/[0.03] text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-white/20 disabled:pointer-events-none disabled:opacity-40';
 
 function ProjectCard({ project, canReorder, onMove }) {
     return (
@@ -183,7 +184,7 @@ export default function ProjectsIndex({ projects, filters }) {
                         <select
                             value={sort}
                             onChange={(e) => navigate({ sort: e.target.value })}
-                            className="input h-9 !pl-3 !pr-9 appearance-none text-sm"
+                            className="input appearance-none !pl-3 !pr-9"
                             aria-label="Order projects by"
                         >
                             {sortOptions.map((option) => (
@@ -198,9 +199,12 @@ export default function ProjectsIndex({ projects, filters }) {
             </div>
 
             {projects.data.length === 0 ? (
-                <div className="panel flex flex-col items-center justify-center py-16 text-center">
-                    <FolderKanban className="h-6 w-6 text-muted-foreground" />
-                    <p className="mt-3 text-sm text-muted-foreground">No projects found.</p>
+                <div className="panel overflow-hidden">
+                    <EmptyState
+                        icon={FolderKanban}
+                        title="No projects found."
+                        description="Try a different search term, or create your first project."
+                    />
                 </div>
             ) : (
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

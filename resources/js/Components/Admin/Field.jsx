@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
+import { dangerText, fieldLabel } from './styles';
 
 export default function Field({
     label,
@@ -43,13 +44,13 @@ export default function Field({
     return (
         <div className="flex flex-col gap-1.5">
             {label && (
-                <label htmlFor={inputId} className="text-xs font-medium uppercase tracking-[0.04em] text-muted-foreground">
+                <label htmlFor={inputId} className={fieldLabel}>
                     {label}
                 </label>
             )}
             {control}
             {hint && !error && <p className="text-xs text-muted-foreground">{hint}</p>}
-            {error && <p className="text-xs text-[#ef4444]">{error}</p>}
+            {error && <p className={cn('text-xs', dangerText)}>{error}</p>}
         </div>
     );
 }

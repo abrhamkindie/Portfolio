@@ -2,10 +2,10 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import Checkbox from '@/Components/Admin/Checkbox';
 import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import FormActions from '@/Components/Admin/FormActions';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Briefcase, CalendarRange } from 'lucide-react';
 
 export default function ExperienceForm({ experience }) {
@@ -73,14 +73,11 @@ export default function ExperienceForm({ experience }) {
                     </div>
                 </FormSection>
 
-                <div className="flex items-center gap-3 pt-1">
-                    <button type="submit" className={btnPrimary} disabled={form.processing}>
-                        {isEdit ? 'Update experience' : 'Create experience'}
-                    </button>
-                    <Link href={route('admin.experiences.index')} className={btn}>
-                        Cancel
-                    </Link>
-                </div>
+                <FormActions
+                    submitLabel={isEdit ? 'Update experience' : 'Create experience'}
+                    cancelHref={route('admin.experiences.index')}
+                    processing={form.processing}
+                />
             </form>
         </AdminLayout>
     );

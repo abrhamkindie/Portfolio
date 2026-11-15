@@ -5,7 +5,8 @@ import FlashMessage from '@/Components/Admin/FlashMessage';
 import PageHeader from '@/Components/Admin/PageHeader';
 import Pagination from '@/Components/Admin/Pagination';
 import StatusPill from '@/Components/Admin/StatusPill';
-import { iconBtn } from '@/Components/Admin/styles';
+import { iconBtn, segmentBtn, successText } from '@/Components/Admin/styles';
+import { cn } from '@/lib/utils';
 import { formatRelativeTime, getInitials } from '@/lib/utils';
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye, Inbox, MailOpen } from 'lucide-react';
@@ -138,12 +139,15 @@ export default function MessagesIndex({ messages, unreadCount, filters }) {
                             key={tab.label}
                             type="button"
                             onClick={() => applyFilter(tab.value)}
-                            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 font-medium transition-colors ${isActive ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
-                                }`}
+                            aria-pressed={isActive}
+                            className={cn(
+                                segmentBtn,
+                                isActive ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground',
+                            )}
                         >
                             {tab.label}
                             {tab.value === '0' && unreadCount > 0 && (
-                                <span className="rounded-full bg-[#22c55e]/15 px-1.5 text-[10px] font-semibold text-[#22c55e]">
+                                <span className={cn('rounded-full bg-[#22c55e]/15 px-1.5 text-[10px] font-semibold', successText)}>
                                     {unreadCount}
                                 </span>
                             )}

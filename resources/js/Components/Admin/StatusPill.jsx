@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-const tones = {
+export const statusTones = {
     green: 'border-[#22c55e]/30 bg-[#22c55e]/10 text-[#22c55e]',
     red: 'border-[#ef4444]/30 bg-[#ef4444]/10 text-[#ef4444]',
     amber: 'border-[#f59e0b]/30 bg-[#f59e0b]/10 text-[#f59e0b]',
@@ -13,7 +13,7 @@ export default function StatusPill({ tone = 'neutral', dot = false, className, c
         <span
             className={cn(
                 'inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium',
-                tones[tone] ?? tones.neutral,
+                statusTones[tone] ?? statusTones.neutral,
                 className,
             )}
         >

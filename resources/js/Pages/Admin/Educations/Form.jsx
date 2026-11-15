@@ -2,10 +2,10 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import Checkbox from '@/Components/Admin/Checkbox';
 import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import FormActions from '@/Components/Admin/FormActions';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { CalendarRange, GraduationCap } from 'lucide-react';
 
 export default function EducationForm({ education }) {
@@ -75,14 +75,11 @@ export default function EducationForm({ education }) {
                     </div>
                 </FormSection>
 
-                <div className="flex items-center gap-3 pt-1">
-                    <button type="submit" className={btnPrimary} disabled={form.processing}>
-                        {isEdit ? 'Update education' : 'Create education'}
-                    </button>
-                    <Link href={route('admin.educations.index')} className={btn}>
-                        Cancel
-                    </Link>
-                </div>
+                <FormActions
+                    submitLabel={isEdit ? 'Update education' : 'Create education'}
+                    cancelHref={route('admin.educations.index')}
+                    processing={form.processing}
+                />
             </form>
         </AdminLayout>
     );

@@ -1,6 +1,6 @@
 import { router } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
-import { iconBtn } from './styles';
+import { iconBtnDanger } from './styles';
 
 export default function DeleteButton({ url, label = 'this item' }) {
     const handleDelete = () => {
@@ -15,7 +15,7 @@ export default function DeleteButton({ url, label = 'this item' }) {
             onClick={handleDelete}
             title="Delete"
             aria-label="Delete"
-            className={`${iconBtn} hover:border-[#ef4444]/40 hover:bg-[#ef4444]/10 hover:text-[#ef4444]`}
+            className={iconBtnDanger}
         >
             <Trash2 className="h-4 w-4" />
         </button>

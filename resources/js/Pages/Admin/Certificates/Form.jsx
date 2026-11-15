@@ -1,10 +1,10 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import Field from '@/Components/Admin/Field';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import FormActions from '@/Components/Admin/FormActions';
 import FormSection from '@/Components/Admin/FormSection';
 import PageHeader from '@/Components/Admin/PageHeader';
-import { btn, btnPrimary } from '@/Components/Admin/styles';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { Award, CalendarRange } from 'lucide-react';
 
 export default function CertificateForm({ certificate }) {
@@ -65,14 +65,11 @@ export default function CertificateForm({ certificate }) {
                     </div>
                 </FormSection>
 
-                <div className="flex items-center gap-3 pt-1">
-                    <button type="submit" className={btnPrimary} disabled={form.processing}>
-                        {isEdit ? 'Update certificate' : 'Create certificate'}
-                    </button>
-                    <Link href={route('admin.certificates.index')} className={btn}>
-                        Cancel
-                    </Link>
-                </div>
+                <FormActions
+                    submitLabel={isEdit ? 'Update certificate' : 'Create certificate'}
+                    cancelHref={route('admin.certificates.index')}
+                    processing={form.processing}
+                />
             </form>
         </AdminLayout>
     );
