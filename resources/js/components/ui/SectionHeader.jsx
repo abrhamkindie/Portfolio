@@ -1,42 +1,34 @@
 import { useReveal } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 
-export function SectionHeader({ label, title, subtitle, dark = false }) {
+/**
+ * Shared section heading: a small numbered eyebrow, a display title and an
+ * optional deck. Keeping it in one place is what gives the page its rhythm.
+ */
+export function SectionHeader({ label, title, subtitle, index, className }) {
     const ref = useReveal({ selector: '[data-reveal]', y: 30, stagger: 0.1 });
 
     return (
-        <div ref={ref} className="mb-14 flex flex-col gap-4 lg:mb-20">
+        <div ref={ref} className={cn('mb-16 flex flex-col gap-6 lg:mb-24', className)}>
             {label && (
-                <p
-                    data-reveal
-                    className={cn(
-                        'section-label',
-                        dark ? '!text-white/50' : 'text-muted-foreground'
-                    )}
-                >
+                <div data-reveal className="section-label">
+                    {index && <span className="mr-2 opacity-40">{index} — </span>}
                     {label}
-                </p>
+                </div>
             )}
-            <h2
-                data-reveal
-                className={cn(
-                    'section-title',
-                    dark ? 'text-white' : 'text-[#262626]'
+            <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+                <h2 data-reveal className="section-title mb-0 max-w-4xl text-gradient !text-[6vw] lg:!text-[4rem]">
+                    {title}
+                </h2>
+                {subtitle && (
+                    <p
+                        data-reveal
+                        className="max-w-md text-lg font-medium leading-relaxed text-white/50 lg:pb-2 lg:text-right"
+                    >
+                        {subtitle}
+                    </p>
                 )}
-            >
-                {title}
-            </h2>
-            {subtitle && (
-                <p
-                    data-reveal
-                    className={cn(
-                        'max-w-xl text-base leading-relaxed',
-                        dark ? 'text-white/70' : 'text-[#373737]'
-                    )}
-                >
-                    {subtitle}
-                </p>
-            )}
+            </div>
         </div>
     );
 }

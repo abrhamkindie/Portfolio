@@ -1,38 +1,36 @@
 import { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
+import { ArrowUpRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-    { href: '#projects', label: 'Work' },
-    { href: '#skills', label: 'Services' },
-    { href: '#process', label: 'Process' },
     { href: '#about', label: 'About' },
+    { href: '#projects', label: 'Work' },
+    { href: '#services', label: 'Services' },
+    { href: '#experience', label: 'Career' },
+    { href: '#contact', label: 'Contact' },
 ];
 
-const EASE = 'cubic-bezier(0.22,1,0.36,1)';
-
 /**
- * Header modelled on the site: bold logo on the left, spaced nav links with an
- * animated underline (and scroll-spy active state), plus a black pill "Let's
- * talk" button on the right. On small screens a round toggle opens a
- * full-screen dark menu whose links rise in one after another.
+ * Fixed editorial navbar: brand mark, primary links, and a contact CTA.
  */
 export function Navbar({ profile }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState('#projects');
-    const name = profile?.full_name || 'Portfolio';
+    const [activeSection, setActiveSection] = useState('');
+
+    const brandName = profile?.full_name?.split(' ')[0] || 'Abrham';
 
     useEffect(() => {
-        const onScroll = () => setIsScrolled(window.scrollY > 20);
+        const onScroll = () => setIsScrolled(window.scrollY > 50);
         onScroll();
         window.addEventListener('scroll', onScroll, { passive: true });
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
-    // Scroll-spy: highlight the nav item for the section currently in view.
     useEffect(() => {
         const sections = navItems
+            .filter((item) => item.href.startsWith('#'))
             .map((item) => document.querySelector(item.href))
             .filter(Boolean);
 
@@ -43,21 +41,15 @@ export function Navbar({ profile }) {
                 const visible = entries
                     .filter((entry) => entry.isIntersecting)
                     .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-                if (visible[0]) {
-                    setActiveSection(`#${visible[0].target.id}`);
-                }
+                if (visible[0]) setActiveSection(`#${visible[0].target.id}`);
             },
-            {
-                rootMargin: '-45% 0px -50% 0px',
-                threshold: [0, 0.25, 0.5, 0.75, 1],
-            }
+            { rootMargin: '-45% 0px -50% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
         );
 
         sections.forEach((section) => observer.observe(section));
         return () => observer.disconnect();
     }, []);
 
-    // Lock page scroll while the mobile menu is open.
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : '';
         return () => {
@@ -71,113 +63,133 @@ export function Navbar({ profile }) {
         <>
             <header
                 className={cn(
-                    'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+                    'fixed inset-x-0 top-0 z-[60] transition-all duration-500',
                     isScrolled
-                        ? 'bg-white/85 shadow-[0_1px_0_rgba(38,38,38,0.08)] backdrop-blur-md'
-                        : 'bg-transparent'
+                        ? 'border-b border-white/5 bg-background/85 py-4 backdrop-blur-xl'
+                        : 'bg-transparent py-6'
                 )}
             >
-                <div className="mx-auto flex h-[clamp(70px,8vh,97px)] w-[90%] max-w-[min(1800px,95vw)] items-center justify-between">
-                    <Link
-                        href="/"
-                        data-cursor="hover"
-                        className="z-[5001] text-[clamp(20px,1.4vw,26px)] tracking-[-0.02em] text-[#000]"
-                    >
-                        <span className="font-bold">{name}</span>
-                    </Link>
-
-                    <nav aria-label="Main navigation" className="hidden flex-1 items-center justify-end md:flex">
-                        <ul className="flex items-center gap-[clamp(30px,4vw,50px)]">
-                            {navItems.map((item) => {
-                                const isActive = activeSection === item.href;
-                                return (
-                                    <li key={item.href}>
-                                        <a
-                                            href={item.href}
-                                            data-cursor="hover"
-                                            className={cn(
-                                                'group relative inline-block text-[clamp(16px,1.2vw,18px)] font-medium leading-none tracking-[-0.01em] transition-colors duration-300',
-                                                isActive ? 'text-[#000]' : 'text-[#5b5b5b] hover:text-[#000]'
-                                            )}
-                                        >
-                                            {item.label}
-                                            <span
-                                                className={cn(
-                                                    'absolute -bottom-1.5 left-0 h-px bg-[#262626] transition-all duration-300',
-                                                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                                                )}
-                                                style={{ transitionTimingFunction: EASE }}
-                                            />
-                                        </a>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-
-                        <a
-                            href="#contact"
-                            data-cursor="hover"
-                            className="btn-primary ml-[clamp(20px,2.5vw,30px)] h-[clamp(32px,3.5vw,37px)] w-[clamp(120px,12vw,140px)]"
+                <div className="section-container">
+                    <div className="grid grid-cols-[1fr_auto] items-center gap-6 lg:grid-cols-[auto_1fr_auto]">
+                        <Link
+                            href="/"
+                            className="group flex items-baseline gap-2 font-display text-2xl font-bold uppercase tracking-tight text-white"
                         >
-                            Let&apos;s talk
-                        </a>
-                    </nav>
+                            <span>{brandName}</span>
+                            <span
+                                aria-hidden="true"
+                                className="h-1.5 w-1.5 translate-y-[-2px] rounded-full bg-primary transition-transform duration-300 group-hover:scale-125"
+                            />
+                        </Link>
 
-                    <button
-                        type="button"
-                        onClick={() => setIsOpen((v) => !v)}
-                        aria-expanded={isOpen}
-                        aria-label={isOpen ? 'Close menu' : 'Open menu'}
-                        data-cursor="hover"
-                        className="relative z-[5001] flex h-[clamp(40px,8vw,50px)] w-[clamp(40px,8vw,50px)] items-center justify-center rounded-full bg-black text-white transition-transform duration-300 hover:scale-110 md:hidden"
-                    >
-                        <span className="relative block h-3.5 w-5" aria-hidden="true">
-                            <span
-                                className={cn(
-                                    'absolute left-0 top-0 h-[1.5px] w-full bg-white transition-transform duration-300',
-                                    isOpen && 'translate-y-[6.5px] rotate-45'
-                                )}
-                                style={{ transitionTimingFunction: EASE }}
-                            />
-                            <span
-                                className={cn(
-                                    'absolute bottom-0 left-0 h-[1.5px] w-full bg-white transition-transform duration-300',
-                                    isOpen && '-translate-y-[6.5px] -rotate-45'
-                                )}
-                                style={{ transitionTimingFunction: EASE }}
-                            />
-                        </span>
-                    </button>
+                        <nav
+                            aria-label="Main navigation"
+                            className="hidden items-center justify-center lg:flex"
+                        >
+                            <ul className="flex items-center gap-10">
+                                {navItems.map((item) => {
+                                    const isActive = activeSection === item.href;
+                                    return (
+                                        <li key={item.href}>
+                                            <a
+                                                href={item.href}
+                                                className={cn(
+                                                    'relative text-[11px] font-bold uppercase tracking-[0.22em] transition-colors duration-300',
+                                                    isActive
+                                                        ? 'text-primary'
+                                                        : 'text-white/45 hover:text-white'
+                                                )}
+                                            >
+                                                {item.label}
+                                                <span
+                                                    aria-hidden="true"
+                                                    className={cn(
+                                                        'absolute -bottom-2 left-0 h-px w-full origin-left bg-primary transition-transform duration-300',
+                                                        isActive ? 'scale-x-100' : 'scale-x-0'
+                                                    )}
+                                                />
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </nav>
+
+                        <div className="flex items-center justify-end gap-4">
+                            <a
+                                href="#contact"
+                                className="hidden items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] text-white transition-colors hover:text-primary lg:inline-flex"
+                            >
+                                Start a Project
+                                <ArrowUpRight size={15} />
+                            </a>
+
+                            <button
+                                type="button"
+                                onClick={() => setIsOpen((v) => !v)}
+                                aria-expanded={isOpen}
+                                aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                                className="flex h-10 w-10 items-center justify-center border border-white/10 text-white lg:hidden"
+                            >
+                                <span className="relative block h-3 w-4" aria-hidden="true">
+                                    <span
+                                        className={cn(
+                                            'absolute left-0 top-0 h-0.5 w-full bg-current transition-transform duration-300',
+                                            isOpen ? 'translate-y-[5px] rotate-45' : ''
+                                        )}
+                                    />
+                                    <span
+                                        className={cn(
+                                            'absolute bottom-0 left-0 h-0.5 w-full bg-current transition-transform duration-300',
+                                            isOpen ? '-translate-y-[5px] -rotate-45' : ''
+                                        )}
+                                    />
+                                </span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            {/* Mobile menu: full-screen dark panel with staggered links */}
             <div
                 className={cn(
-                    'fixed inset-0 z-[4999] flex items-center justify-center bg-[#262626] transition-[transform,opacity] duration-500 md:hidden',
-                    isOpen ? 'pointer-events-auto translate-y-0 opacity-100' : 'pointer-events-none -translate-y-full opacity-0'
+                    'fixed inset-0 z-[55] flex flex-col justify-between bg-background px-6 pb-10 pt-28 transition-[opacity,transform] duration-500 lg:hidden',
+                    isOpen
+                        ? 'pointer-events-auto translate-y-0 opacity-100'
+                        : 'pointer-events-none -translate-y-3 opacity-0'
                 )}
-                style={{ transitionTimingFunction: EASE }}
                 aria-hidden={!isOpen}
             >
-                <nav aria-label="Mobile navigation" className="w-full px-[clamp(20px,5vw,40px)]">
-                    <ul className="flex flex-col items-start gap-[clamp(30px,6vw,40px)]">
-                        {[...navItems, { href: '#contact', label: "Let's talk" }].map((item, i) => (
-                            <li key={item.href} className="overflow-hidden">
-                                <a
-                                    href={item.href}
-                                    onClick={close}
-                                    tabIndex={isOpen ? 0 : -1}
-                                    className={cn(
-                                        'block text-[clamp(24px,6vw,40px)] font-medium leading-[120%] tracking-[-0.02em] text-white transition-[opacity,transform,color] duration-500 hover:text-[#ccc]',
-                                        isOpen ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
-                                    )}
-                                    style={{ transitionTimingFunction: EASE, transitionDelay: isOpen ? `${0.15 + i * 0.07}s` : '0s' }}
-                                >
-                                    {item.label}
-                                </a>
-                            </li>
-                        ))}
+                <nav aria-label="Mobile navigation">
+                    <ul className="flex flex-col gap-2">
+                        {navItems.map((item) => {
+                            const isActive = activeSection === item.href;
+                            return (
+                                <li key={item.href} className="border-b border-white/5 pb-4 pt-2">
+                                    <a
+                                        href={item.href}
+                                        onClick={close}
+                                        tabIndex={isOpen ? 0 : -1}
+                                        className={cn(
+                                            'block font-display text-4xl font-bold tracking-tight transition-colors',
+                                            isActive ? 'text-primary' : 'text-white'
+                                        )}
+                                    >
+                                        {item.label}
+                                    </a>
+                                </li>
+                            );
+                        })}
+                        <li className="pt-8">
+                            <a
+                                href="#contact"
+                                onClick={close}
+                                tabIndex={isOpen ? 0 : -1}
+                                className="btn-primary w-full"
+                            >
+                                Start a Project
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

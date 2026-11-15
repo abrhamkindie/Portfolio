@@ -1,23 +1,16 @@
-
-
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ThemeProvider } from '@/components/layout/ThemeProvider';
+import { Head } from '@inertiajs/react';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
 import { Projects } from '@/components/sections/Projects';
-import { ImageShowcase } from '@/components/sections/ImageShowcase';
-import { ServiceOrbit } from '@/components/sections/ServiceOrbit';
+import { Services } from '@/components/sections/ServiceOrbit';
 import { Skills } from '@/components/sections/Skills';
-import { Process } from '@/components/sections/Process';
 import { Experience } from '@/components/sections/Experience';
 import { Education } from '@/components/sections/Education';
 import { Certificates } from '@/components/sections/Certificates';
 import { Contact } from '@/components/sections/Contact';
-import { Cursor } from '@/components/layout/Cursor';
-import { PageIntro } from '@/components/layout/PageIntro';
 
 const API_BASE = '/api';
 
@@ -29,7 +22,6 @@ async function fetchData(endpoint) {
 
 export default function Portfolio({ initialData = {}, auth }) {
     const isOwner = !!auth?.user;
-    const [introDone, setIntroDone] = useState(false);
     const [data, setData] = useState({
         profile: initialData.profile || null,
         projects: initialData.projects || [],
@@ -39,7 +31,7 @@ export default function Portfolio({ initialData = {}, auth }) {
         certificates: initialData.certificates || [],
     });
     const onProfileChange = (profile) => setData((d) => ({ ...d, profile }));
-    const [loading, setLoading] = useState(!initialData.profile);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -78,36 +70,39 @@ export default function Portfolio({ initialData = {}, auth }) {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-white font-sans text-[#262626]">
-                <p className="text-sm text-[#7b7b7b]">Loading…</p>
+            <div className="flex min-h-screen items-center justify-center bg-night font-sans text-white/50">
+                <p className="text-sm">Loading…</p>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-white px-6 text-center font-sans text-[#262626]">
-                <h2 className="text-3xl font-semibold tracking-[-0.02em]">Something went wrong</h2>
-                <p className="text-sm text-[#7b7b7b]">{error}</p>
+            <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-night px-6 text-center font-sans text-white">
+                <h2 className="text-3xl font-bold tracking-tight">Something went wrong</h2>
+                <p className="text-sm text-white/60">{error}</p>
                 <button onClick={() => window.location.reload()} className="btn-primary">Try again</button>
             </div>
         );
     }
 
     return (
-        <ThemeProvider>
-            <div className="min-h-screen bg-white font-sans text-[#262626] antialiased">
-                {!introDone && <PageIntro onDone={() => setIntroDone(true)} />}
-                <Cursor />
+        <>
+            <Head title={data.profile?.full_name ? `${data.profile.full_name} — ${data.profile.title || 'Portfolio'}` : 'Abrham — Portfolio'} />
+            <div className="min-h-screen bg-night font-sans text-white antialiased">
+                <a
+                    href="#main-content"
+                    className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-[60] focus:rounded-lg focus:bg-primary focus:px-5 focus:py-2 focus:text-sm focus:text-primary-foreground"
+                >
+                    Skip to content
+                </a>
                 <Navbar profile={data.profile} />
                 <main id="main-content">
                     <Hero profile={data.profile} onProfileChange={onProfileChange} editable={isOwner} />
                     <About profile={data.profile} />
                     <Projects projects={data.projects} />
-                    <ImageShowcase projects={data.projects} />
-                    <ServiceOrbit />
+                    <Services />
                     <Skills skills={data.skills} />
-                    <Process />
                     <Experience experiences={data.experiences} />
                     <Education educations={data.educations} />
                     <Certificates certificates={data.certificates} />
@@ -115,6 +110,6 @@ export default function Portfolio({ initialData = {}, auth }) {
                 </main>
                 <Footer profile={data.profile} />
             </div>
-        </ThemeProvider>
+        </>
     );
 }

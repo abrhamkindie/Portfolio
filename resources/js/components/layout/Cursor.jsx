@@ -52,26 +52,12 @@ export function Cursor() {
 
         /**
          * Determine whether the element sits on a dark background.
-         * Any ancestor with the .dark-section class (or data-cursor containing
-         * "invert") flips the cursor to light colours.
+         * Since the whole site is now dark, we want the cursor to be primary or light.
          */
         const isDark = (el) => {
-            if (!el) return false;
-            const section = el.closest(
-                '.dark-section, [data-cursor*="invert"]',
-            );
-            if (!section) return false;
-            // Only treat as dark if the matching section is actually a dark bg
-            // (data-cursor="invert" on a light element should still invert).
-            return true;
+            return true; // Whole site is dark now
         };
 
-        /**
-         * Resolve the cursor state from the element under the pointer.
-         * - `variant`: dot (idle), hover (interactive), or a label string
-         * - `text`: pill label (e.g. "View", "Verify")
-         * - `invert`: true when over a dark background
-         */
         const resolve = (el) => {
             const invert = isDark(el);
             let node = el;
@@ -98,33 +84,30 @@ export function Cursor() {
             const hovering = variant !== "dot";
             const enlarge =
                 variant === "hover" ||
-                variant === "dot-hover" ||
-                variant === "dot-hover-invert";
+                variant === "view" ||
+                variant === "external";
 
-            // Colours: invert → white cursor on dark bg; otherwise dark cursor.
-            const dotInk = invert ? "#ffffff" : "#0f0f0f";
-            const ringInk = invert
-                ? "rgba(255,255,255,0.4)"
-                : "rgba(10,10,10,0.25)";
-            const pillBg = invert ? "#ffffff" : "#0f0f0f";
-            const pillText = invert ? "#0a0a0a" : "#ffffff";
-
-            dot.style.backgroundColor = dotInk;
-            ring.style.borderColor = ringInk;
+            // Colors for premium dark theme
+            const primaryColor = "rgb(59, 130, 246)";
+            const primaryGlow = "rgba(59, 130, 246, 0.3)";
+            
+            dot.style.backgroundColor = primaryColor;
+            ring.style.borderColor = primaryGlow;
             if (pill) {
-                pill.style.backgroundColor = pillBg;
-                pill.style.color = pillText;
+                pill.style.backgroundColor = primaryColor;
+                pill.style.color = "#ffffff";
             }
 
             gsap.to(ring, {
-                scale: hovering ? 1.8 : 1,
-                opacity: 1,
-                duration: 0.35,
+                scale: hovering ? 2.5 : 1,
+                backgroundColor: hovering ? "rgba(59, 130, 246, 0.1)" : "transparent",
+                duration: 0.4,
                 ease: "power3.out",
             });
+            
             gsap.to(dot, {
-                scale: enlarge ? 0.6 : 1,
-                duration: 0.25,
+                scale: hovering ? 0 : 1,
+                duration: 0.3,
                 ease: "power2.out",
             });
 
