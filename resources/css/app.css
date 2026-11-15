@@ -1,59 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens: white canvas, #262626 ink, pill buttons (Montserrat). */
+/*
+ * Abrham portfolio: dark editorial developer branding.
+ */
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 15%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 15%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 15%;
-        --primary: 0 0% 15%;
-        --primary-foreground: 0 0% 100%;
-        --primary-glow: 0, 0%, 15%;
-        --secondary: 0 0% 95%;
-        --secondary-foreground: 0 0% 15%;
-        --muted: 0 0% 96%;
-        --muted-foreground: 0 0% 42%;
-        --accent: 0 0% 96%;
-        --accent-foreground: 0 0% 15%;
-        --destructive: 0 70% 45%;
-        --destructive-foreground: 0 0% 100%;
-        --border: 0 0% 85%;
-        --input: 0 0% 85%;
-        --ring: 0 0% 15%;
-        --radius: 19px;
-    }
+        --background: 0 0% 2%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 4%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 2%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 165 100% 48%;
+        --primary-foreground: 0 0% 2%;
+        --secondary: 0 0% 7%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 12%;
+        --muted-foreground: 0 0% 60%;
+        --accent: 165 100% 48%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 7%;
+        --input: 0 0% 7%;
+        --ring: 165 100% 48%;
+        --radius: 0px;
 
-    /* Dark theme scoped to the admin panel only (public site stays light).
-       "Aerium" quiet-luxury palette: charcoal canvas, cool blue-grey mist, off-white ink. */
-    .dark {
-        --background: 200 18% 4%;
-        --foreground: 200 16% 96%;
-        --card: 200 15% 8%;
-        --card-foreground: 200 16% 96%;
-        --popover: 200 15% 9%;
-        --popover-foreground: 200 16% 96%;
-        --primary: 200 14% 96%;
-        --primary-foreground: 200 20% 6%;
-        --secondary: 200 12% 14%;
-        --secondary-foreground: 200 16% 96%;
-        --muted: 200 12% 14%;
-        --muted-foreground: 197 16% 72%;
-        --accent: 200 12% 16%;
-        --accent-foreground: 200 16% 96%;
-        --destructive: 0 72% 55%;
-        --destructive-foreground: 0 0% 100%;
-        --border: 200 14% 16%;
-        --input: 200 14% 18%;
-        --ring: 197 30% 70%;
-        --radius: 20px;
+        /* Design tokens */
+        --ink: #f8fafc;
+        --ink-soft: #cbd5e1;
+        --ink-muted: #64748b;
+        --line: rgba(255, 255, 255, 0.03);
+        --surface: #050505;
+        --night: #050505;
+        --glow-primary: rgba(0, 245, 184, 0.4);
     }
 }
 
@@ -64,218 +48,152 @@
 
     html {
         scroll-behavior: smooth;
-        background: #fff;
+        background: var(--night);
+        -webkit-text-size-adjust: 100%;
     }
 
     body {
-        @apply bg-background text-foreground antialiased font-sans;
+        @apply bg-background font-sans text-foreground antialiased;
+        font-feature-settings: "ss01" on;
+        overflow-x: hidden;
+    }
+
+    /* Grain/Noise Texture */
+    body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: 9999;
+    }
+
+    [id] {
+        scroll-margin-top: 100px;
     }
 
     ::selection {
-        background: #262626;
-        color: #fff;
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
     }
 
-    ::-webkit-scrollbar {
-        width: 0;
-        height: 0;
+    ::-moz-selection {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
     }
 
     h1,
     h2,
     h3,
     h4 {
-        @apply font-semibold;
+        @apply font-display font-bold tracking-tighter text-foreground;
+        text-wrap: balance;
+        text-transform: uppercase;
+    }
+
+    p {
+        @apply text-muted-foreground leading-relaxed;
+        text-wrap: pretty;
     }
 }
 
 @layer components {
-
-    /* Pill buttons */
-    /* Buttons, matching the site: pill shape, rotating gradient border,
-       and a glow on hover that flips the fill. */
-    .btn {
-        @apply relative isolate inline-flex items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-[19px] px-[14px] py-2.5 text-sm font-medium tracking-[-0.01em] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#262626]/40 disabled:pointer-events-none disabled:opacity-40;
+    /* Editorial Layout --------------------------------------------------- */
+    .section-container {
+        @apply mx-auto w-full max-w-[1440px] px-8 sm:px-12 lg:px-20;
     }
 
-    .btn::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 200%;
-        height: 200%;
-        transform-origin: 50%;
-        border-radius: 19px;
-        z-index: -1;
-        animation: btn-spin 4s linear infinite;
-        pointer-events: none;
-    }
-
-    .btn::after {
-        content: "";
-        position: absolute;
-        inset: 1.5px;
-        border-radius: 17px;
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    .btn-primary {
-        @apply btn bg-[#262626] text-white;
-    }
-
-    .btn-primary::before {
-        background: linear-gradient(#fff, #d7d7d7, #262626);
-    }
-
-    .btn-primary::after {
-        background: #262626;
-    }
-
-    .btn-primary:hover {
-        @apply bg-white text-[#262626];
-        box-shadow:
-            0 0 5px #fff,
-            0 0 25px #fff,
-            0 0 50px #fff;
-    }
-
-    .btn-primary:hover::before {
-        display: none;
-    }
-
-    .btn-primary:hover::after {
-        background: #fff;
-    }
-
-    .btn-outline,
-    .btn-secondary,
-    .btn-glass,
-    .btn-ghost {
-        @apply btn bg-white text-[#262626];
-    }
-
-    .btn-outline::before,
-    .btn-secondary::before,
-    .btn-glass::before,
-    .btn-ghost::before {
-        background: linear-gradient(#262626, #d7d7d7, #fff);
-    }
-
-    .btn-outline::after,
-    .btn-secondary::after,
-    .btn-glass::after,
-    .btn-ghost::after {
-        background: #fff;
-    }
-
-    .btn-outline:hover,
-    .btn-secondary:hover,
-    .btn-glass:hover,
-    .btn-ghost:hover {
-        @apply bg-[#262626] text-white;
-        box-shadow:
-            0 0 5px #262626,
-            0 0 25px #262626,
-            0 0 50px #262626;
-    }
-
-    .btn-outline:hover::before,
-    .btn-secondary:hover::before,
-    .btn-glass:hover::before,
-    .btn-ghost:hover::before {
-        display: none;
-    }
-
-    .btn-outline:hover::after,
-    .btn-secondary:hover::after,
-    .btn-glass:hover::after,
-    .btn-ghost:hover::after {
-        background: #262626;
-    }
-
-    .btn-white {
-        @apply btn bg-white text-[#262626] hover:bg-[#262626] hover:text-white;
-    }
-
-    .btn-outline-dark {
-        @apply btn border border-white/30 bg-transparent text-white hover:bg-white hover:text-[#262626];
-    }
-
-    .btn-outline-dark::before,
-    .btn-outline-dark::after {
-        display: none;
-    }
-
-    /* Nav links: colour fade and a slight lift on hover, like the site header. */
-    .nav-link {
-        @apply inline-block transition-all duration-300 ease-in-out;
-    }
-
-    .nav-link:hover {
-        @apply text-[#606060];
-        transform: scale(1.05);
-        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    }
-
-    @keyframes btn-spin {
-        0% {
-            transform: translate(-50%, -50%) rotate(0deg);
-        }
-
-        100% {
-            transform: translate(-50%, -50%) rotate(360deg);
-        }
-    }
-
-    .link {
-        @apply underline underline-offset-4 transition-opacity hover:opacity-60;
+    .section-pad {
+        @apply py-32 lg:py-48;
     }
 
     .section-label {
-        @apply text-xs font-normal uppercase tracking-[0.04em] text-muted-foreground;
+        @apply inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-12;
+    }
+
+    .section-label::before {
+        content: "";
+        @apply h-[1px] w-12 bg-primary;
     }
 
     .section-title {
-        font-size: clamp(32px, 4.5vw, 64px);
-        @apply font-semibold leading-[1.1] tracking-[-0.03em];
+        @apply text-[12vw] font-bold tracking-tighter text-white lg:text-[10vw] mb-16 leading-[0.85] uppercase;
     }
 
-    .section-container {
-        @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12;
+    .text-gradient {
+        @apply bg-gradient-to-br from-white via-white to-white/20 bg-clip-text text-transparent;
     }
 
-    /* Form fields: underline style */
+    .border-text {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+        color: transparent;
+    }
+    
+    @screen lg {
+        .border-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+        }
+    }
+
+    /* Bespoke Buttons ---------------------------------------------------- */
+    .btn {
+        @apply inline-flex h-16 items-center justify-center gap-4 whitespace-nowrap px-12 text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-700 focus-visible:outline-none;
+        border-radius: 0;
+    }
+
+    .btn-primary {
+        @apply btn bg-white text-black hover:bg-primary hover:text-black;
+    }
+
+    .btn-outline {
+        @apply btn border border-white/10 text-white hover:border-primary hover:text-primary;
+    }
+
+    .btn-glass {
+        @apply btn border border-white/5 bg-white/[0.03] backdrop-blur-xl hover:bg-white/[0.08];
+    }
+
+    /* Remove standard cards in favor of editorial entries */
+    .editorial-entry {
+        @apply relative py-20 border-t border-white/5 last:border-b transition-all duration-700;
+    }
+
+    .editorial-entry:hover {
+        @apply bg-white/[0.01];
+    }
+
     .input {
-        @apply flex h-12 w-full rounded-none border-0 border-b border-[#262626]/30 bg-transparent px-0 py-2 text-base text-[#262626] placeholder:text-muted-foreground focus-visible:border-[#262626] focus-visible:outline-none disabled:opacity-50;
-    }
-
-    .input-dark {
-        @apply flex h-12 w-full rounded-none border-0 border-b border-white/30 bg-transparent px-0 py-2 text-base text-white placeholder:text-white/40 focus-visible:border-white focus-visible:outline-none disabled:opacity-50;
+        @apply flex h-16 w-full rounded-none border-b border-white/10 bg-transparent px-0 py-4 text-lg text-white placeholder:text-white/10 transition-all focus:border-primary outline-none font-medium;
     }
 
     .badge-primary,
     .badge-secondary,
     .badge-outline {
-        @apply inline-flex items-center rounded-full border border-[#262626] px-3 py-1 text-xs font-medium;
+        @apply inline-flex items-center rounded-lg border px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em];
     }
 
     .badge-primary {
-        @apply bg-[#262626] text-white;
+        @apply border-primary/20 bg-primary/10 text-primary;
     }
 
-    .card {
-        @apply rounded-none border-t border-[#262626] bg-white p-0;
+    .badge-secondary,
+    .badge-outline {
+        @apply border-white/10 bg-white/5 text-white/60;
     }
 }
 
 /* Dark admin theme: adapt shared component classes without touching the light public site. */
 @layer components {
-
-    .dark .btn::before,
-    .dark .btn::after {
-        display: none;
+    .dark .btn {
+        border-radius: 999px;
+        height: 2.25rem;
+        padding-inline: 1.25rem;
+        font-size: 0.8125rem;
+        transition: background-color 150ms ease, color 150ms ease;
     }
 
     .dark .btn-primary {
@@ -286,7 +204,6 @@
     .dark .btn-primary:hover {
         background: hsl(var(--primary) / 0.92);
         color: hsl(var(--primary-foreground));
-        box-shadow: 0 10px 34px -10px hsl(var(--primary) / 0.65);
     }
 
     .dark .btn-outline,
@@ -304,7 +221,6 @@
     .dark .btn-ghost:hover {
         background: hsl(var(--foreground));
         color: hsl(var(--background));
-        box-shadow: none;
     }
 
     .dark .badge-primary {
@@ -374,7 +290,7 @@
     }
 
     .dark .card {
-        border-top-color: hsl(var(--border));
+        border-color: hsl(var(--border));
         background: hsl(var(--card));
     }
 
@@ -429,7 +345,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -437,67 +352,5 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
-    }
-}
-
-/* Custom cursor (desktop only). Native cursor hidden on fine pointers. */
-@media (hover: hover) and (pointer: fine) {
-
-    html.has-custom-cursor,
-    html.has-custom-cursor a,
-    html.has-custom-cursor button,
-    html.has-custom-cursor [role="button"],
-    html.has-custom-cursor input,
-    html.has-custom-cursor textarea,
-    html.has-custom-cursor select {
-        cursor: none;
-    }
-}
-
-/* Rule draw-in: rows reveal a top border that grows across the width. */
-li[style*="--rule"] {
-    background-image: linear-gradient(var(--rule-color, #262626),
-            var(--rule-color, #262626));
-    background-repeat: no-repeat;
-    background-size: calc(var(--rule, 0%)) 1px;
-    background-position: 0 0;
-}
-
-.dark-section {
-    --rule-color: rgba(255, 255, 255, 0.6);
-}
-
-/* Marquee gap */
-.marquee-track {
-    will-change: transform;
-}
-
-/* Showcase: silver shine sweeping across the active project title */
-.silver-shine::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg,
-            transparent 0%,
-            transparent 46%,
-            #fff 50%,
-            transparent 54%,
-            transparent 100%) 0 0 / 200% 100%;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
-    mix-blend-mode: screen;
-    pointer-events: none;
-    animation: silver-shine 6s linear infinite;
-}
-
-@keyframes silver-shine {
-    0% {
-        background-position: 100% 0;
-    }
-
-    100% {
-        background-position: -100% 0;
     }
 }

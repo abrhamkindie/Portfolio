@@ -16,6 +16,10 @@ export function formatDate(dateString, options = {}) {
     return new Date(dateString).toLocaleDateString('en-US', defaultOptions);
 }
 
+export function formatMonthYear(dateString) {
+    return new Date(dateString).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
 export function formatRelativeTime(dateString) {
     const date = new Date(dateString);
     const now = new Date();

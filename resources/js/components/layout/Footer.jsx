@@ -1,4 +1,4 @@
-import { Globe } from 'lucide-react';
+import { ArrowUpRight, Globe } from 'lucide-react';
 import { useReveal } from '@/lib/motion';
 
 function GithubIcon({ size = 16 }) {
@@ -29,7 +29,7 @@ export function Footer({ profile }) {
     const year = new Date().getFullYear();
     const email = profile?.email || 'hello@example.com';
     const location = profile?.location || '';
-    const revealRef = useReveal({ selector: '[data-reveal]', y: 24, stagger: 0.1, start: 'top 95%' });
+    const revealRef = useReveal({ selector: '[data-reveal]', y: 20, stagger: 0.08, start: 'top 95%' });
 
     const socials = [
         { key: 'github', label: 'GitHub', url: profile?.github, icon: GithubIcon },
@@ -39,44 +39,76 @@ export function Footer({ profile }) {
     ].filter((s) => s.url);
 
     return (
-        <footer className="dark-section bg-[#262626] text-white">
-            <div ref={revealRef} className="section-container grid gap-12 py-16 md:grid-cols-2 lg:py-24">
-                <div data-reveal>
-                    <p className="text-[clamp(28px,3.5vw,56px)] font-semibold leading-[1.1] tracking-[-0.03em]">
-                        Let&apos;s build something great.
-                    </p>
-                    <a
-                        href={`mailto:${email}`}
-                        data-cursor="hover"
-                        className="mt-6 inline-block text-lg underline underline-offset-4 hover:opacity-70"
-                    >
-                        {email}
-                    </a>
+        <footer className="bg-night border-t border-white/5 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+
+            <div ref={revealRef} className="section-container py-24 lg:py-40 relative z-10">
+                <div className="flex flex-col gap-20 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="max-w-3xl" data-reveal>
+                        <div className="section-label">Stay Connected</div>
+                        <h2 className="text-6xl font-black tracking-tighter text-white sm:text-8xl lg:text-9xl mb-12 leading-[0.8] text-gradient">
+                            READY TO<br />
+                            <span className="text-primary italic">COLLABORATE?</span>
+                        </h2>
+                        <p className="text-2xl text-white/50 mb-16 max-w-xl font-medium leading-relaxed">
+                            I'm currently available for new ventures. If you have a visionary idea, let's build it.
+                        </p>
+                        <a
+                            href={`mailto:${email}`}
+                            className="inline-flex items-center gap-6 text-3xl font-black text-white hover:text-primary transition-all duration-500 group"
+                        >
+                            {email}
+                            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 transition-transform group-hover:scale-125 group-hover:rotate-45">
+                                <ArrowUpRight size={28} className="text-primary" />
+                            </div>
+                        </a>
+                    </div>
+
+                    <div className="flex flex-col gap-12 lg:text-right" data-reveal>
+                        <div>
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 mb-8">Navigation</h3>
+                            <ul className="space-y-6">
+                                {[
+                                    { label: 'About', href: '#about' },
+                                    { label: 'Work', href: '#projects' },
+                                    { label: 'Services', href: '#services' },
+                                    { label: 'Contact', href: '#contact' },
+                                ].map((item) => (
+                                    <li key={item.href}>
+                                        <a href={item.href} className="text-xl font-bold text-white/40 hover:text-white transition-all duration-300">
+                                            {item.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-reveal className="mt-32 flex flex-col gap-10 pt-12 border-t border-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-white/20 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex flex-wrap items-center gap-x-12 gap-y-4">
+                        <span>© {year} {profile?.full_name || 'Abrham'}.</span>
+                        {location && <span className="flex items-center gap-3"><Globe size={14} className="text-primary/40" /> {location}</span>}
+                    </div>
                     {socials.length > 0 && (
-                        <div className="mt-8 flex flex-wrap gap-3">
+                        <div className="flex items-center gap-4">
                             {socials.map(({ key, label, url, icon: Icon }) => (
                                 <a
                                     key={key}
                                     href={url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    data-cursor="hover"
                                     aria-label={label}
-                                    className="flex h-11 w-11 items-center justify-center border border-white/20 text-white transition-all duration-300 hover:bg-white hover:text-[#262626]"
+                                    className="h-12 w-12 flex items-center justify-center rounded-xl bg-white/[0.03] border border-white/5 text-white/40 transition-all duration-500 hover:bg-primary hover:text-white hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20"
                                 >
-                                    <Icon size={16} />
+                                    <Icon size={20} />
                                 </a>
                             ))}
                         </div>
                     )}
                 </div>
-
-                <div data-reveal className="flex flex-col justify-end gap-3 text-sm text-white/60 md:items-end">
-                    {location && <p>{location}</p>}
-                    <p>© {year} All Rights Reserved</p>
-                </div>
             </div>
         </footer>
     );
 }
-
