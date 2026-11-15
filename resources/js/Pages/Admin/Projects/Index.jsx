@@ -18,7 +18,7 @@ const sortOptions = [
 ];
 
 const moveBtn =
-    'inline-flex h-8 w-8 items-center justify-center rounded-[8px] border border-border bg-white/[0.03] text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground disabled:pointer-events-none disabled:opacity-40';
+    'inline-flex h-8 w-8 items-center justify-center rounded-full border border-border bg-white/[0.03] text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground disabled:pointer-events-none disabled:opacity-40';
 
 function ProjectCard({ project, canReorder, onMove }) {
     return (
@@ -57,7 +57,7 @@ function ProjectCard({ project, canReorder, onMove }) {
                         <p className="mt-1 truncate font-mono text-[11px] text-muted-foreground">/{project.slug}</p>
                     </div>
                     {project.category && (
-                        <span className="shrink-0 rounded-md border border-border bg-white/[0.05] px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                        <span className="shrink-0 rounded-full border border-border bg-white/[0.05] px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                             {project.category}
                         </span>
                     )}

@@ -16,9 +16,12 @@ export default {
             fontFamily: {
                 sans: ['Roboto', ...defaultTheme.fontFamily.sans],
                 display: ['Poppins', ...defaultTheme.fontFamily.sans],
+                serif: ['Instrument Serif', ...defaultTheme.fontFamily.serif],
                 mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
             },
             colors: {
+                night: 'var(--night)',
+                surface: 'var(--surface)',
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',

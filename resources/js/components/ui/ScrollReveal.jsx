@@ -1,7 +1,13 @@
-
-
-import { useEffect, useRef, useState } from 'react';
+import { Children, isValidElement, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
+
+const offsets = {
+    up: 'translateY(40px)',
+    down: 'translateY(-40px)',
+    left: 'translateX(40px)',
+    right: 'translateX(-40px)',
+    scale: 'scale(0.9)',
+};
 
 export function ScrollReveal({
     children,
@@ -10,6 +16,7 @@ export function ScrollReveal({
     duration = 0.6,
     direction = 'up',
     once = true,
+    style,
     ...props
 }) {
     const ref = useRef(null);
@@ -19,13 +26,13 @@ export function ScrollReveal({
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        setIsVisible(true);
-                    }, delay * 1000);
                     if (once && ref.current) {
                         observer.unobserve(ref.current);
                     }
-                } else if (!once) {
+                    const timer = setTimeout(() => setIsVisible(true), delay * 1000);
+                    return () => clearTimeout(timer);
+                }
+                if (!once) {
                     setIsVisible(false);
                 }
             },
@@ -36,36 +43,22 @@ export function ScrollReveal({
             observer.observe(ref.current);
         }
 
-        return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
-            }
-        };
+        return () => observer.disconnect();
     }, [delay, once]);
-
-    const directionStyles = {
-        up: { transform: 'translateY(40px)' },
-        down: { transform: 'translateY(-40px)' },
-        left: { transform: 'translateX(40px)' },
-        right: { transform: 'translateX(-40px)' },
-        scale: { transform: 'scale(0.9)' },
-    };
 
     return (
         <div
             ref={ref}
             className={cn(
-                'transition-all duration-700 ease-out',
-                isVisible
-                    ? 'opacity-100 transform-none'
-                    : 'opacity-0',
-                directionStyles[direction],
+                'transition-all ease-out',
+                isVisible ? 'opacity-100' : 'opacity-0',
                 className
             )}
             style={{
                 transitionDuration: `${duration}s`,
                 transitionDelay: `${delay}s`,
-                ...props.style,
+                transform: isVisible ? 'none' : (offsets[direction] ?? offsets.up),
+                ...style,
             }}
             {...props}
         >
@@ -77,19 +70,17 @@ export function ScrollReveal({
 export function StaggerContainer({ children, className, stagger = 0.1, ...props }) {
     return (
         <div className={cn('space-y-4', className)} {...props}>
-            {typeof children === 'function' ? children({ stagger }) : (
-                React.Children.map(children, (child, index) => (
-                    React.isValidElement(child) ? (
-                        <ScrollReveal key={child.key || index} delay={index * stagger}>
-                            {child}
-                        </ScrollReveal>
-                    ) : (
-                        child
-                    )
-                ))
-            )}
+            {typeof children === 'function'
+                ? children({ stagger })
+                : Children.map(children, (child, index) =>
+                      isValidElement(child) ? (
+                          <ScrollReveal key={child.key || index} delay={index * stagger}>
+                              {child}
+                          </ScrollReveal>
+                      ) : (
+                          child
+                      )
+                  )}
         </div>
     );
 }
-
-import React from 'react';

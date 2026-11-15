@@ -128,7 +128,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }) {
                 }
             />
 
-            <div className="mb-4 inline-flex items-center gap-1 rounded-[10px] border border-border bg-white/[0.03] p-1 text-sm">
+            <div className="mb-4 inline-flex items-center gap-1 rounded-full border border-border bg-white/[0.03] p-1 text-sm">
                 {tabs.map((tab) => {
                     const isActive =
                         current === tab.value ||
@@ -138,7 +138,7 @@ export default function MessagesIndex({ messages, unreadCount, filters }) {
                             key={tab.label}
                             type="button"
                             onClick={() => applyFilter(tab.value)}
-                            className={`inline-flex items-center gap-1.5 rounded-[7px] px-3 py-1.5 font-medium transition-colors ${isActive ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
+                            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 font-medium transition-colors ${isActive ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             {tab.label}

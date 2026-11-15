@@ -68,21 +68,21 @@ export function Hero({ profile }) {
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-20 items-center">
                     <div className="flex flex-col relative">
                         <div data-hero-line className="absolute -top-12 left-0 w-24 h-[1px] bg-primary origin-left" />
-                        <span data-hero-text className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-8 block opacity-0">
+                        <span data-hero-text className="text-[10px] font-black uppercase tracking-[0.5em] text-primary mb-8 block">
                             {title} · Available for projects
                         </span>
                         
-                        <h1 className="flex flex-col">
+                        <h1 className="flex flex-col uppercase">
                             <span
                                 data-hero-text
-                                className="text-[10vw] font-bold leading-[0.85] tracking-tighter text-white opacity-0 lg:text-[7rem]"
+                                className="text-[10vw] font-bold leading-[0.85] tracking-tighter text-white lg:text-[7rem]"
                             >
                                 {firstName}
                             </span>
                             {lastName ? (
                                 <span
                                     data-hero-text
-                                    className="border-text text-[10vw] font-bold leading-[0.85] tracking-tighter opacity-0 lg:text-[7rem]"
+                                    className="border-text text-[10vw] font-bold leading-[0.85] tracking-tighter lg:text-[7rem]"
                                 >
                                     {lastName}
                                 </span>
@@ -90,14 +90,14 @@ export function Hero({ profile }) {
                         </h1>
                         <p
                             data-hero-text
-                            className="mt-6 max-w-xl text-2xl font-medium leading-snug text-white/45 opacity-0 lg:text-3xl"
+                            className="mt-6 max-w-xl text-2xl font-medium leading-snug text-white/45 lg:text-3xl"
                         >
                             Building considered digital products with clarity and craft.
                         </p>
                     </div>
 
                     <div className="flex flex-col items-center lg:items-start lg:mt-40">
-                        <div data-hero-text className="opacity-0 max-w-sm">
+                        <div data-hero-text className="max-w-sm">
                             <p className="text-xl lg:text-2xl text-white/40 leading-tight mb-12 font-medium">
                                 {bio}
                             </p>

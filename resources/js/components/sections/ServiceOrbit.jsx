@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Code, Palette, Rocket, Settings, Globe, Cpu, Zap, Shield } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { useReveal } from '@/lib/motion';
 import { cn } from '@/lib/utils';
 import { gsap } from 'gsap';
 
@@ -63,39 +62,48 @@ export const defaultServices = [
 
 export function Services({ services = defaultServices }) {
     const orbitRef = useRef(null);
+    const rotationTweens = useRef([]);
     const [activeIndex, setActiveIndex] = useState(0);
     const [isHovering, setIsHovering] = useState(false);
     const radius = 300; // Orbit radius
-    
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            const rotation = gsap.to('.orbit-ring', {
-                rotation: 360,
-                duration: 60,
-                ease: 'none',
-                repeat: -1
-            });
-            
-            const counterRotation = gsap.to('.orbit-item-content', {
-                rotation: -360,
-                duration: 60,
-                ease: 'none',
-                repeat: -1
-            });
 
-            // Slow down when hovering
-            if (isHovering) {
-                gsap.to([rotation, counterRotation], { timeScale: 0.2, duration: 1 });
-            } else {
-                gsap.to([rotation, counterRotation], { timeScale: 1, duration: 1 });
-            }
+    // Build the orbit once: re-creating the tweens on hover reset the rotation.
+    useEffect(() => {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduce) return;
+
+        const ctx = gsap.context(() => {
+            rotationTweens.current = [
+                gsap.to('.orbit-ring', {
+                    rotation: 360,
+                    duration: 60,
+                    ease: 'none',
+                    repeat: -1,
+                }),
+                gsap.to('.orbit-item-content', {
+                    rotation: -360,
+                    duration: 60,
+                    ease: 'none',
+                    repeat: -1,
+                }),
+            ];
         }, orbitRef);
-        
-        return () => ctx.revert();
+
+        return () => {
+            rotationTweens.current = [];
+            ctx.revert();
+        };
+    }, []);
+
+    // Merely ease the existing tweens while a service is hovered.
+    useEffect(() => {
+        rotationTweens.current.forEach((tween) => {
+            gsap.to(tween, { timeScale: isHovering ? 0.2 : 1, duration: 0.8, overwrite: true });
+        });
     }, [isHovering]);
 
     return (
-        <section id="services" className="bg-[#050505] section-pad relative overflow-hidden min-h-[900px] flex items-center">
+        <section id="services" className="bg-background section-pad relative overflow-hidden min-h-[900px] flex items-center">
             {/* Immersive Background Lighting */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-primary/[0.04] rounded-full blur-[160px] pointer-events-none" />
             
@@ -113,7 +121,7 @@ export function Services({ services = defaultServices }) {
                         
                         <div className="max-w-md relative z-10">
                             <div className="h-72 flex flex-col justify-center">
-                                <div key={activeIndex} className="animate-in fade-in slide-in-from-left-6 duration-700 ease-out">
+                                <div key={activeIndex} className="animate-fade-in">
                                     <h3 className="text-4xl lg:text-5xl font-bold text-white mb-8 uppercase tracking-tighter text-gradient leading-none">
                                         {services[activeIndex].title}
                                     </h3>

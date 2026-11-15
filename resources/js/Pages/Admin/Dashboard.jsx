@@ -1,5 +1,6 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import FlashMessage from '@/Components/Admin/FlashMessage';
+import { btn, iconBtn } from '@/Components/Admin/styles';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { formatRelativeTime, getInitials } from '@/lib/utils';
@@ -23,14 +24,9 @@ import {
 const GREEN = '#22c55e';
 const RED = '#ef4444';
 
-const darkBtn =
-    'inline-flex items-center gap-2 rounded-[10px] border border-border bg-white/[0.04] px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-white/[0.08]';
-const iconBtn =
-    'inline-flex h-10 w-10 items-center justify-center rounded-[10px] border border-border bg-white/[0.04] text-muted-foreground transition-colors hover:text-foreground';
-
 function Chip({ dot, label, value }) {
     return (
-        <div className="inline-flex items-center gap-2 rounded-[10px] border border-border bg-white/[0.03] px-3 py-2 text-sm">
+        <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/[0.03] px-3 py-2 text-sm">
             <span className="h-2 w-2 rounded-full" style={{ background: dot, boxShadow: `0 0 8px ${dot}` }} />
             <span className="text-muted-foreground">{label}</span>
             <span className="font-semibold tabular-nums text-foreground">{value}</span>
@@ -58,13 +54,13 @@ function Hero({ name }) {
         <div className="panel relative overflow-hidden p-8">
             <HexPattern />
             <div className="relative max-w-md">
-                <h2 className="text-3xl font-semibold leading-[1.1] tracking-[-0.02em] sm:text-4xl">
+                <h2 className="font-serif text-3xl font-normal leading-[1.1] tracking-[-0.01em] sm:text-4xl">
                     Build. Ship.
                     <br />
                     Showcase.
                 </h2>
                 <p className="mt-3 text-sm text-muted-foreground">Powered by {name} &amp; the portfolio graph.</p>
-                <Link href={route('admin.projects.create')} className={`${darkBtn} mt-6`}>
+                <Link href={route('admin.projects.create')} className={`${btn} mt-6`}>
                     <Plus className="h-4 w-4" />
                     New Project
                 </Link>
@@ -113,7 +109,7 @@ function ProjectCard({ project }) {
                 </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-2 rounded-[12px] border border-border/70 bg-black/20 p-3 text-center">
+            <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-border/70 bg-black/20 p-3 text-center">
                 <div>
                     <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Techs</p>
                     <p className="mt-0.5 text-sm font-semibold tabular-nums text-[#22c55e]">{techs}</p>
@@ -141,14 +137,14 @@ function ProjectCard({ project }) {
                     <button
                         type="button"
                         onClick={() => navigator.clipboard?.writeText(project.slug)}
-                        className="inline-flex items-center gap-1.5 rounded-[8px] border border-border bg-white/[0.03] px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white/[0.03] px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
                     >
                         <Copy className="h-3.5 w-3.5" />
                         Copy
                     </button>
                     <Link
                         href={route('admin.projects.edit', project.id)}
-                        className="rounded-[8px] bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-white/10"
+                        className="rounded-full bg-white/[0.06] px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-white/10"
                     >
                         Edit
                     </Link>
@@ -180,7 +176,7 @@ function ProjectsSection({ projects }) {
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             placeholder="Search..."
-                            className="h-9 w-40 rounded-[10px] border border-border bg-white/[0.03] pl-8 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-white/25 focus:outline-none"
+                            className="h-9 w-40 rounded-full border border-border bg-white/[0.03] pl-8 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-white/25 focus:outline-none"
                         />
                     </div>
                     <div className="relative">
@@ -188,7 +184,7 @@ function ProjectsSection({ projects }) {
                         <select
                             value={sort}
                             onChange={(e) => setSort(e.target.value)}
-                            className="h-9 appearance-none rounded-[10px] border border-border bg-white/[0.03] pl-8 pr-3 text-sm text-foreground focus:border-white/25 focus:outline-none"
+                            className="h-9 appearance-none rounded-full border border-border bg-white/[0.03] pl-8 pr-3 text-sm text-foreground focus:border-white/25 focus:outline-none"
                         >
                             <option value="recent">Recent</option>
                             <option value="title">Title</option>
@@ -229,7 +225,7 @@ function Leaderboard({ skills }) {
                     <Trophy className="h-4 w-4 text-muted-foreground" />
                     Leaderboard
                 </h2>
-                <div className="flex items-center rounded-[8px] border border-border bg-white/[0.03] p-0.5 text-xs">
+                <div className="flex items-center rounded-full border border-border bg-white/[0.03] p-0.5 text-xs">
                     {[
                         { id: 'high', label: 'Highest' },
                         { id: 'low', label: 'Lowest' },
@@ -238,7 +234,7 @@ function Leaderboard({ skills }) {
                             key={t.id}
                             type="button"
                             onClick={() => setDir(t.id)}
-                            className={`rounded-[6px] px-2.5 py-1 font-medium transition-colors ${dir === t.id ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
+                            className={`rounded-full px-2.5 py-1 font-medium transition-colors ${dir === t.id ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             {t.label}
@@ -314,7 +310,7 @@ function LiveMessages({ messages }) {
                         key={t.id}
                         type="button"
                         onClick={() => setTab(t.id)}
-                        className={`rounded-[8px] px-2.5 py-1 text-xs font-medium transition-colors ${tab === t.id ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
+                        className={`rounded-full px-2.5 py-1 text-xs font-medium transition-colors ${tab === t.id ? 'bg-white/10 text-foreground' : 'text-muted-foreground hover:text-foreground'
                             }`}
                     >
                         {t.label}
@@ -347,13 +343,13 @@ function LiveMessages({ messages }) {
             </div>
 
             <div className="flex items-center gap-2 border-t border-border/70 p-3">
-                <span className="inline-flex items-center gap-1.5 rounded-[8px] border border-border bg-white/[0.03] px-2.5 py-1.5 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-white/[0.03] px-2.5 py-1.5 text-xs text-muted-foreground">
                     <Paperclip className="h-3.5 w-3.5" />
                     Attachments
                 </span>
                 <Link
                     href={route('admin.messages.index')}
-                    className="ml-auto inline-flex items-center gap-1.5 rounded-[8px] bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-white/[0.14]"
+                    className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-white/[0.08] px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-white/[0.14]"
                 >
                     <Send className="h-3.5 w-3.5" />
                     Open Inbox
@@ -375,10 +371,10 @@ export default function Dashboard({ stats, projects, skills, messages }) {
             {/* Toolbar */}
             <div className="mb-5 flex flex-wrap items-center gap-2">
                 <Chip dot={GREEN} label="Projects" value={stats.projects} />
-                <Chip dot="#3b82f6" label="Skills" value={stats.skills} />
+                <Chip dot="#e7b7a6" label="Skills" value={stats.skills} />
                 <Chip dot={RED} label="Unread" value={stats.unread_messages} />
                 <div className="ml-auto flex items-center gap-2">
-                    <Link href={route('home')} className={darkBtn}>
+                    <Link href={route('home')} className={btn}>
                         <ExternalLink className="h-4 w-4" />
                         View Site
                     </Link>

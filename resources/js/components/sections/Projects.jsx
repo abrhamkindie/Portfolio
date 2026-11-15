@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
-import { Badge } from '@/components/ui/Badge';
 import { useReveal } from '@/lib/motion';
 
 export function Projects({ projects }) {
@@ -15,7 +14,7 @@ export function Projects({ projects }) {
     const visible = active === 'All' ? projects : projects.filter((p) => p.category === active);
 
     return (
-        <section id="projects" className="bg-[#050505] section-pad relative overflow-hidden">
+        <section id="projects" className="bg-background section-pad relative overflow-hidden">
             {/* Ambient Background Light */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[150px] pointer-events-none" />
             

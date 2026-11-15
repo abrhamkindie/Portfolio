@@ -23,7 +23,7 @@ export default function FlashMessage() {
 
     return (
         <div
-            className={`mb-6 flex items-center gap-2.5 rounded-[10px] border px-4 py-3 text-sm ${isError
+            className={`mb-6 flex items-center gap-2.5 rounded-xl border px-4 py-3 text-sm ${isError
                     ? 'border-[#ef4444]/30 bg-[#ef4444]/10 text-[#ef4444]'
                     : 'border-[#22c55e]/30 bg-[#22c55e]/10 text-[#22c55e]'
                 }`}

@@ -87,20 +87,20 @@ export function Cursor() {
                 variant === "view" ||
                 variant === "external";
 
-            // Colors for premium dark theme
-            const primaryColor = "rgb(59, 130, 246)";
-            const primaryGlow = "rgba(59, 130, 246, 0.3)";
-            
+            // Site brand accent (--primary: mint)
+            const primaryColor = "rgb(0, 245, 184)";
+            const primaryGlow = "rgba(0, 245, 184, 0.3)";
+
             dot.style.backgroundColor = primaryColor;
             ring.style.borderColor = primaryGlow;
             if (pill) {
                 pill.style.backgroundColor = primaryColor;
-                pill.style.color = "#ffffff";
+                pill.style.color = "#050505";
             }
 
             gsap.to(ring, {
                 scale: hovering ? 2.5 : 1,
-                backgroundColor: hovering ? "rgba(59, 130, 246, 0.1)" : "transparent",
+                backgroundColor: hovering ? "rgba(0, 245, 184, 0.1)" : "transparent",
                 duration: 0.4,
                 ease: "power3.out",
             });
@@ -175,15 +175,15 @@ export function Cursor() {
         >
             <div
                 ref={ringRef}
-                className="absolute left-0 top-0 h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#0a0a0a]/30"
+                className="absolute left-0 top-0 h-[52px] w-[52px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary/30"
             />
             <div
                 ref={dotRef}
-                className="absolute left-0 top-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0f0f0f]"
+                className="absolute left-0 top-0 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary"
             />
             <div
                 ref={pillRef}
-                className="absolute left-0 top-0 -translate-x-1/2 translate-y-6 rounded-full bg-[#0f0f0f] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.04em] text-white opacity-0"
+                className="absolute left-0 top-0 -translate-x-1/2 translate-y-6 rounded-full bg-primary px-3 py-1 text-[11px] font-medium uppercase tracking-[0.04em] text-primary-foreground opacity-0"
                 style={{ visibility: "hidden" }}
             />
         </div>

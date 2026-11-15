@@ -47,7 +47,7 @@ export function Footer({ profile }) {
                 <div className="flex flex-col gap-20 lg:flex-row lg:items-start lg:justify-between">
                     <div className="max-w-3xl" data-reveal>
                         <div className="section-label">Stay Connected</div>
-                        <h2 className="text-6xl font-black tracking-tighter text-white sm:text-8xl lg:text-9xl mb-12 leading-[0.8] text-gradient">
+                        <h2 className="text-6xl font-black uppercase tracking-tighter text-white sm:text-8xl lg:text-9xl mb-12 leading-[0.8] text-gradient">
                             READY TO<br />
                             <span className="text-primary italic">COLLABORATE?</span>
                         </h2>
