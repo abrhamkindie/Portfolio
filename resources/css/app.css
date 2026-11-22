@@ -392,6 +392,72 @@
     animation: marquee 40s linear infinite;
 }
 
+/*
+ * Entrance animations are CSS-driven so the first screen paints immediately
+ * and does not depend on a JavaScript animation tick to become visible.
+ */
+@keyframes hero-rise {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hero-rule {
+    from {
+        transform: scaleX(0);
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes hero-backdrop {
+    from {
+        opacity: 0;
+        transform: scale(1.06);
+    }
+
+    to {
+        opacity: 0.15;
+        transform: scale(1);
+    }
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-hero-rise {
+    animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-hero-rule {
+    animation: hero-rule 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-hero-backdrop {
+    animation: hero-backdrop 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+    animation: fade-in-up 0.35s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
