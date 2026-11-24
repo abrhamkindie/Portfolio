@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\ConfigurationUrlParser;
 use Illuminate\Support\Str;
 use Pdo\Mysql;
 
@@ -87,6 +88,15 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
+            /*
+             * When DB_URL uses a transaction pooler (Neon/Supabase "-pooler"
+             * host), DDL inside migrations aborts the pooled transaction. Laravel
+             * then sends migrations and other schema changes over this direct
+             * endpoint while normal queries keep using the pooled connection.
+             */
+            'direct' => env('DB_DIRECT_URL')
+                ? (new ConfigurationUrlParser)->parseConfiguration(['url' => env('DB_DIRECT_URL')])
+                : null,
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'laravel'),
