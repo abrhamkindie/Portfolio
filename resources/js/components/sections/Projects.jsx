@@ -1,106 +1,133 @@
-import { useMemo, useState } from 'react';
+import { Link } from '@inertiajs/react';
 import { ArrowUpRight } from 'lucide-react';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { useReveal } from '@/lib/motion';
 
-export function Projects({ projects }) {
-    const categories = useMemo(
-        () => ['All', ...new Set(projects.map((p) => p.category).filter(Boolean))],
-        [projects]
-    );
-    const [active, setActive] = useState('All');
-    const listRef = useReveal({ selector: '[data-reveal]', y: 40, stagger: 0.1 });
-
-    const visible = active === 'All' ? projects : projects.filter((p) => p.category === active);
+export function Projects({ projects = [] }) {
+    const listRef = useReveal({ selector: '[data-reveal]', y: 24, stagger: 0.08 });
 
     return (
         <section id="projects" className="bg-background section-pad relative overflow-hidden">
             {/* Ambient Background Light */}
             <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/[0.02] rounded-full blur-[150px] pointer-events-none" />
-            
+
             <div className="section-container relative z-10">
-                <SectionHeader 
+                <SectionHeader
                     label="Selected Work"
-                    title={<>Featured <span className="border-text">Projects</span></>}
-                    className="mb-24"
+                    title={
+                        <>
+                            Featured <span className="border-text">Projects</span>
+                        </>
+                    }
                 />
 
-                <div ref={listRef} className="flex flex-col">
-                    {visible.map((project, index) => (
-                        <article
-                            key={project.id}
-                            data-reveal
-                            className="group relative border-t border-white/5 py-20 transition-all duration-700 hover:bg-white/[0.01]"
-                        >
-                            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-16 lg:gap-24 items-center">
-                                {/* Large Image Area */}
-                                <div className="relative aspect-[16/9] overflow-hidden rounded-[2.5rem] bg-[#0a0a0a] border border-white/5 shadow-2xl">
-                                    {project.image_url ? (
-                                        <img 
-                                            src={project.image_url} 
-                                            alt={project.title}
-                                            className="h-full w-full object-cover grayscale transition-all duration-1000 ease-out group-hover:scale-105 group-hover:grayscale-0 opacity-80 group-hover:opacity-100"
-                                        />
-                                    ) : (
-                                        <div className="flex h-full w-full items-center justify-center">
-                                            <span className="text-[10vw] font-bold border-text opacity-5">{String(index + 1).padStart(2, '0')}</span>
-                                        </div>
-                                    )}
-                                    
-                                    {/* Overlay Gradient */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                                </div>
+                <div ref={listRef} className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+                    {projects.map((project, index) => {
+                        const thumbnail = project.thumbnail || project.images?.[0] || null;
+                        const caseStudyUrl = project.slug ? `/work/${project.slug}` : null;
+                        const ImageWrapper = caseStudyUrl ? Link : 'div';
+                        const TitleWrapper = caseStudyUrl ? Link : 'div';
 
-                                {/* Content Details */}
-                                <div className="flex flex-col">
-                                    <div className="flex items-center gap-6 mb-8">
-                                        <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">
+                        return (
+                            <article
+                                key={project.id}
+                                data-reveal
+                                className="group flex flex-col overflow-hidden rounded-[2rem] border border-white/5 bg-white/[0.02] transition-colors duration-500 hover:border-primary/25"
+                            >
+                                <ImageWrapper
+                                    {...(caseStudyUrl
+                                        ? { href: caseStudyUrl, 'aria-label': `${project.title} case study` }
+                                        : {})}
+                                    className="relative block aspect-[16/10] overflow-hidden bg-[#0a0a0a]"
+                                >
+                                    {/* Placeholder sits behind the image so a missing or broken thumbnail still looks intentional */}
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/[0.06] via-transparent to-primary/[0.05]">
+                                        <span className="border-text text-[6rem] font-bold opacity-30">
+                                            {String(index + 1).padStart(2, '0')}
+                                        </span>
+                                    </div>
+                                    {thumbnail && (
+                                        <img
+                                            src={thumbnail}
+                                            alt={project.title}
+                                            loading={index < 2 ? 'eager' : 'lazy'}
+                                            decoding="async"
+                                            onError={(event) => {
+                                                event.currentTarget.remove();
+                                            }}
+                                            className="relative h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                                        />
+                                    )}
+                                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                                </ImageWrapper>
+
+                                <div className="flex flex-1 flex-col p-7 lg:p-9">
+                                    <div className="mb-5 flex items-center gap-4">
+                                        <span className="text-[9px] font-black uppercase tracking-[0.4em] text-primary">
                                             Project {String(index + 1).padStart(2, '0')}
                                         </span>
-                                        <div className="h-px w-12 bg-primary/20" />
+                                        <div className="h-px w-8 bg-primary/20" />
                                         {project.category && (
-                                            <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">
+                                            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-white/25">
                                                 {project.category}
                                             </span>
                                         )}
                                     </div>
 
-                                    <h3 className="text-4xl lg:text-6xl font-bold text-white tracking-tighter uppercase mb-8 group-hover:text-primary transition-colors duration-700 leading-none">
+                                    <TitleWrapper
+                                        {...(caseStudyUrl ? { href: caseStudyUrl } : {})}
+                                        className="mb-4 block text-2xl font-bold uppercase leading-tight tracking-tighter text-white transition-colors duration-500 group-hover:text-primary lg:text-3xl"
+                                    >
                                         {project.title}
-                                    </h3>
+                                    </TitleWrapper>
 
                                     {project.description && (
-                                        <p className="text-xl text-white/40 leading-relaxed font-medium mb-12 max-w-lg group-hover:text-white/60 transition-colors duration-700">
+                                        <p className="line-clamp-3 mb-6 text-sm font-medium leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/60">
                                             {project.description}
                                         </p>
                                     )}
 
-                                    <div className="flex flex-wrap gap-4 mb-12">
-                                        {project.technologies?.map((tech) => (
-                                            <span key={tech} className="text-[9px] font-black text-white/20 uppercase tracking-[0.3em] px-4 py-2 border border-white/5 rounded-full group-hover:border-primary/20 group-hover:text-primary/60 transition-all duration-500">
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {project.live_url && (
-                                        <a
-                                            href={project.live_url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-white hover:text-primary transition-all duration-500 group/link"
-                                        >
-                                            View Case Study
-                                            <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center group-hover/link:border-primary group-hover/link:bg-primary group-hover/link:text-black transition-all duration-500">
-                                                <ArrowUpRight size={18} />
-                                            </div>
-                                        </a>
+                                    {project.technologies?.length > 0 && (
+                                        <div className="mb-8 flex flex-wrap gap-2">
+                                            {project.technologies.slice(0, 4).map((tech) => (
+                                                <span
+                                                    key={tech}
+                                                    className="rounded-full border border-white/5 px-3 py-1.5 text-[8px] font-black uppercase tracking-[0.25em] text-white/30 transition-colors duration-500 group-hover:border-primary/20 group-hover:text-primary/60"
+                                                >
+                                                    {tech}
+                                                </span>
+                                            ))}
+                                        </div>
                                     )}
+
+                                    <div className="mt-auto flex flex-wrap items-center gap-6">
+                                        {caseStudyUrl && (
+                                            <Link
+                                                href={caseStudyUrl}
+                                                className="group/link inline-flex items-center gap-3 text-[9px] font-black uppercase tracking-[0.35em] text-white transition-colors duration-500 hover:text-primary"
+                                            >
+                                                View Case Study
+                                                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 transition-all duration-500 group-hover/link:border-primary group-hover/link:bg-primary group-hover/link:text-black">
+                                                    <ArrowUpRight size={16} />
+                                                </span>
+                                            </Link>
+                                        )}
+                                        {project.live_url && (
+                                            <a
+                                                href={project.live_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.35em] text-white/35 transition-colors duration-500 hover:text-primary"
+                                            >
+                                                Live Site
+                                                <ArrowUpRight size={13} />
+                                            </a>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        </article>
-                    ))}
-                    <div className="border-t border-white/5" />
+                            </article>
+                        );
+                    })}
                 </div>
             </div>
         </section>

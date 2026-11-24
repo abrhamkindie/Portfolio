@@ -29,7 +29,7 @@ export function Footer({ profile }) {
     const year = new Date().getFullYear();
     const email = profile?.email || 'hello@example.com';
     const location = profile?.location || '';
-    const revealRef = useReveal({ selector: '[data-reveal]', y: 20, stagger: 0.08, start: 'top 95%' });
+    const revealRef = useReveal({ selector: '[data-reveal]', y: 20, stagger: 0.08 });
 
     const socials = [
         { key: 'github', label: 'GitHub', url: profile?.github, icon: GithubIcon },
