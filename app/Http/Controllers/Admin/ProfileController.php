@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\StoresPublicFiles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UploadAvatarRequest;
 use App\Models\Profile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    use StoresPublicFiles;
+
     public function edit(Request $request): Response
     {
         return Inertia::render('Admin/Profile', [
@@ -34,12 +36,9 @@ class ProfileController extends Controller
 
         $path = $request->file('avatar')->store('avatars', 'public');
 
-        if ($profile->avatar && str_contains($profile->avatar, '/storage/avatars/')) {
-            $old = str_replace(url('/storage').'/', '', $profile->avatar);
-            Storage::disk('public')->delete($old);
-        }
+        $this->deletePublicFileFromUrl($profile->avatar);
 
-        $profile->update(['avatar' => url('/storage/'.$path)]);
+        $profile->update(['avatar' => $this->publicFileUrl($path)]);
 
         return back()->with('success', 'Avatar updated successfully.');
     }

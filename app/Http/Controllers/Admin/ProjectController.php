@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Concerns\StoresPublicFiles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
@@ -9,12 +10,13 @@ use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProjectController extends Controller
 {
+    use StoresPublicFiles;
+
     public function index(Request $request): Response
     {
         $sort = $request->string('sort')->toString();
@@ -136,12 +138,10 @@ class ProjectController extends Controller
             return $providedUrl ?? $current;
         }
 
-        if ($current && str_contains($current, '/storage/project-thumbnails/')) {
-            Storage::disk('public')->delete(str_replace(url('/storage') . '/', '', $current));
-        }
+        $this->deletePublicFileFromUrl($current);
 
         $path = $request->file('thumbnail_file')->store('project-thumbnails', 'public');
 
-        return url('/storage/' . $path);
+        return $this->publicFileUrl($path);
     }
 }
